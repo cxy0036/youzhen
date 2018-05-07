@@ -1,6 +1,6 @@
 #my configuration:
-data
-PL3000
+data/
+PL3000/
 *.o
 *.obj
 *.htm
