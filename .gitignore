@@ -4,6 +4,7 @@ PL3000/
 *.o
 *.obj
 *.htm
+*.lst
 *.map
 *.elf
 #Obeject files:
