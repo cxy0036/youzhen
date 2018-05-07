@@ -7,6 +7,11 @@ PL3000/
 *.lst
 *.map
 *.elf
+*.m51
+*.lnp
+*.pdf
+*._ia
+*.yz
 #Obeject files:
 *.o
 *.obj
