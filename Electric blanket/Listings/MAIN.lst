@@ -1,0 +1,48 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              05/07/2018 14:29:01 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\MAIN.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\MAIN.C OPTIMIZE(8,SPEED) BROWSE INCDIR(.\INC) DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\MAIN.lst) TABS(2) OBJECT(.\Objects\MAIN.obj)
+
+line level    source
+
+   1          #include "SN8F5702.H"
+   2          //#include "delay.h"
+   3          #include "INIT.H"
+   4          //#include "key.h"
+   5          
+   6          
+   7          void main(void)
+   8          {
+   9   1        uint8_t i =9;
+  10   1        WDTR = 0x5A;
+  11   1        Init_Fun();
+  12   1        //Uart_Init();
+  13   1        //EEPROM_IO();
+  14   1        //Delay_Init();
+  15   1        IEN0 |= 0x80;
+  16   1        while(1)
+  17   1        {
+  18   2          
+  19   2          //Error_Check();
+  20   2          //Key_Process();
+  21   2          //Analysis_Request();   
+  22   2          //EEPROM_Write_Check();   
+  23   2        }
+  24   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     14    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,10 @@
+#Obeject files
+*.o
+*.obj
+*.elf
+# Linker output
+*.ilk
+*.map
+*.exp
+data
+PL3000
