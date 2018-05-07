@@ -1,0 +1,1 @@
+"User\queue.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\User;.\Option File) DEBUG OBJECTEXTEND PRINT(.\Listings\queue.lst) TABS (2) OBJECT(.\Objects\queue.obj)
