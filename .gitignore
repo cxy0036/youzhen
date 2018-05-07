@@ -1,8 +1,16 @@
-#Obeject files
+#my configuration:
+data
+PL3000
+*.o
+*.obj
+*.htm
+*.map
+*.elf
+#Obeject files:
 *.o
 *.obj
 *.elf
-# Linker output
+# Linker output:
 *.ilk
 *.map
 *.exp
