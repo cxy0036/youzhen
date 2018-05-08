@@ -422,17 +422,17 @@ void Full_Charge_Judgment(uint16_t read_hv)
   {
         if(HV_Level <= 2)
         {
-          Charge_Wait_Time=75; //2s
+          Charge_Wait_Time=65; //2s
         }else{
                if(HV_Level <= 5)
                {
-                 Charge_Wait_Time=115; //3s
+                 Charge_Wait_Time=90; //3s
                }else{
                      if(HV_Level <= 7)
                      {
-                       Charge_Wait_Time=215; //5s
+                       Charge_Wait_Time=200; //5s
                      }else{
-                           Charge_Wait_Time=255; //6s  285
+                           Charge_Wait_Time=235; //6s  285
                           }
                     }
              }
