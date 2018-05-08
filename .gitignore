@@ -1,24 +1,45 @@
 #my configuration:
+
 data/
 PL3000/
+
 *.o
+
 *.obj
+
 *.htm
+
 *.lst
+
 *.map
+
 *.elf
+
 *.m51
+
 *.lnp
 *.pdf
+
 *._ia
+
 *.yz
+
+PL\PL3000_STM8\Debug\
 #Obeject files:
+
 *.o
+
 *.obj
 *.elf
+
 # Linker output:
+
 *.ilk
+
 *.map
+
 *.exp
+
 data
+
 PL3000
