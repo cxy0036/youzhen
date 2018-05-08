@@ -1,6 +1,7 @@
 #my configuration:
 
 data/
+
 PL3000/
 
 *.o
@@ -24,7 +25,11 @@ PL3000/
 
 *.yz
 
-PL\PL3000_STM8\Debug\
+PL/PL3000_STM8/Debug/
+PL/PL3000_STM8/settings/
+PL/PL3000_STM8/Release/
+PL/probe project/Objects/
+PL/probe project/Listings/
 #Obeject files:
 
 *.o
