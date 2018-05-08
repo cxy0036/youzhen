@@ -40,13 +40,13 @@
 //#define FULL_CHARGE_LEVEL1             0x02C3
 //#define FULL_CHARGE_LEVEL1             720  //0x02D0 599
 //#define FULL_CHARGE_LEVEL2             744  //0x02E8 620
-#define FULL_CHARGE_LEVEL1             721
-#define FULL_CHARGE_LEVEL2             721
-#define FULL_CHARGE_LEVEL3             747//768  //0x0300 650
-#define FULL_CHARGE_LEVEL4             773//792  //0x0318   /* 3.871v ----> HV: 737.8V*/
-#define FULL_CHARGE_LEVEL5             799//816  //0x0330   /* 4.075v ----> HV: 754.6V*/ 
+#define FULL_CHARGE_LEVEL1             715 //750
+#define FULL_CHARGE_LEVEL2             715
+#define FULL_CHARGE_LEVEL3             740//768  //0x0300 650
+#define FULL_CHARGE_LEVEL4             770//792  //0x0318   /* 3.871v ----> HV: 737.8V*/
+#define FULL_CHARGE_LEVEL5             795//816  //0x0330   /* 4.075v ----> HV: 754.6V*/ 
 #define FULL_CHARGE_LEVEL6             825//840  //0x0348   /* 4.166v ----> HV: 771.5V*/ 
-#define FULL_CHARGE_LEVEL7             851//864  //0x0360   /* 4.257v ----> HV: 788.3V*/ 
+#define FULL_CHARGE_LEVEL7             850//864  //0x0360   /* 4.257v ----> HV: 788.3V*/ 
 #define FULL_CHARGE_LEVEL8             878  //0x037A   /* 4.348v ----> HV: 805.2V*/  
 
 /*

@@ -412,44 +412,24 @@ void Full_Charge_Judgment(uint16_t read_hv)
    {
     Charge_Time_Count = 0;
    }
-  if(Mode_Flag == AUTO_MODE)//if((Mode_Flag == AUTO_MULTI_MODE) || (Mode_Flag == AUTO_MODE))
+  if((Mode_Flag == AUTO_MULTI_MODE) || (Mode_Flag == AUTO_MODE))//if(Mode_Flag == AUTO_MODE)//
   {
-    Charge_Wait_Time = 140;
-  }else if(Mode_Flag == AUTO_MULTI_MODE)
-  {
-    Charge_Wait_Time = 100;
-  }else if(Mode_Flag == STANDARD_MULTI_MODE)
-  {
+    Charge_Wait_Time = 88;  //140
+  }
+  else{
         if(HV_Level <= 2)
         {
-          Charge_Wait_Time=65; //2s
+          Charge_Wait_Time=77; //2s   90
         }else{
                if(HV_Level <= 5)
                {
-                 Charge_Wait_Time=90; //3s
+                 Charge_Wait_Time=120; //3s  135
                }else{
                      if(HV_Level <= 7)
                      {
-                       Charge_Wait_Time=200; //5s
+                       Charge_Wait_Time=213; //5s  235
                      }else{
-                           Charge_Wait_Time=235; //6s  285
-                          }
-                    }
-             }
-  }else{
-        if(HV_Level <= 2)
-        {
-          Charge_Wait_Time=90; //2s
-        }else{
-               if(HV_Level <= 5)
-               {
-                 Charge_Wait_Time=135; //3s
-               }else{
-                     if(HV_Level <= 7)
-                     {
-                       Charge_Wait_Time=235; //5s
-                     }else{
-                           Charge_Wait_Time=275; //6s  285
+                           Charge_Wait_Time=259; //6s  285
                           }
                     }
              }
