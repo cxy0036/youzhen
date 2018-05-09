@@ -96,7 +96,7 @@ uint8_t Data_Check(void)
 	Analysis_Lock = 0;
 	return Data_Check_OK;
 }
-
+//tong xun
 void Analysis_Request(void)
 {
 	uint8_t Data_Check_OK;
