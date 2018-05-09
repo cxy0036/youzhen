@@ -28,9 +28,9 @@
 *                               THRESHOLD
 ********************************************************************************
 */
-#define PID_START_THR                  616  //0x0268//0x025C   /* 2.956v ----> HV: 537.3V*/
+#define PID_START_THR                  550//616  //0x0268//0x025C   /* 2.956v ----> HV: 537.3V*/
 
-#define FLASH_STANDAR_OVER_THR         692  //0x00C0//0x0151   /* 0.90v ----> HV: 170V*/
+#define FLASH_STANDAR_OVER_THR         650//692  //0x00C0//0x0151   /* 0.90v ----> HV: 170V*/
 //#define FLASH_MULTI_OVER_THR           680  //0x0268//0x02CE   /* 3.512v ----> HV: 650.4V*/         
 
 //#define FULL_CHARGE_LEVEL1             0x0268   /* 3.011v ----> HV: 547.5V*/

@@ -1013,10 +1013,10 @@ void Function_Processe(void)
                           Skin_Color_Type_Count_1 = 0;
                           LED_Count = 0;//非颜色5时，清零
                           //HV_Level_Dowm_5 = 0;
-                          if(HVLevel_set3)
+                          if(HVLevel_set5)//if(HVLevel_set3)
                           {  
-                            HV_Level = HVLevel_set3;
-                            HVLevel_set3=0;         
+                            HV_Level = HVLevel_set5;//HV_Level = HVLevel_set3;
+                            HVLevel_set5=0;//HVLevel_set3=0;         
                           }  
                           if(Mode_Trans)
                           {  
@@ -1027,21 +1027,21 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_3  >= 10)
                            {
                             Skin_Color_Type_Count_3 = 10;
-                            if(HV_Level > 5)
+                            if(HV_Level > 3)//if(HV_Level > 5)
                              {
-                               HVLevel_set5 = HV_Level;
-                               HV_Level = 5;
+                               HVLevel_set3 = HV_Level;//HVLevel_set5 = HV_Level;
+                               HV_Level = 3;//HV_Level = 5;
                                HV_Level_Dowm_3 = 1; 
-                               HV_Level_Dowm_5 = 1; 
+                               //HV_Level_Dowm_5 = 1; fix
                              }
                           };break;
                   case 4 :Skin_Color_Type_Count_5 = 0;
                           Skin_Color_Type_Count_3 = 0;
                           Skin_Color_Type_Count_1 = 0;
-                          if(HVLevel_set5)
+                          if(HVLevel_set3)//if(HVLevel_set5)
                           {  
-                            HV_Level = HVLevel_set5;
-                            HVLevel_set5=0;         
+                            HV_Level = HVLevel_set3;//HV_Level = HVLevel_set5;
+                           HVLevel_set3=0; // HVLevel_set5=0;         
                           }                  
                           LED_Count = 0;//非颜色5时，清零
                           if(Mode_Trans)
@@ -1053,12 +1053,12 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_4 >= 10)
                           {
                            Skin_Color_Type_Count_4 = 10; 
-                           if(HV_Level > 3)
+                           if(HV_Level > 5)//if(HV_Level > 3)
                              { 
-                               HVLevel_set3 = HV_Level;
-                               HV_Level = 3;
+                               HVLevel_set5 = HV_Level;//HVLevel_set3 = HV_Level;
+                               HV_Level = 5;//HV_Level = 3;
                                //HV_Level_Dowm_5 = 1; 
-                               HV_Level_Dowm_3 = 1; 
+                               HV_Level_Dowm_5 = 1;//HV_Level_Dowm_3 = 1; 
                              }
                           };break;
                   case 5 :  Skin_Color_Type_Count_5++;
@@ -1114,7 +1114,7 @@ void Function_Processe(void)
                           {  
                             Mode_Flag = Mode_Trans;
                             Mode_Trans=0;         
-                          }  break;
+                          }  LED_Level(HV_Level); break;
            }
           Charge_Control_Fun(HV_Level);  /* charge control */  
         if(Full_Charge_Flag)

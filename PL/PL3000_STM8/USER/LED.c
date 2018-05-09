@@ -386,7 +386,7 @@ void Flash_Times_LED(void)
   if((Skin_Color_Type == 5)&&(!ERROR_Flag) && (!Lowlamp_Flag)&&(LED_Count == 20) )
   {           
          //first off all level led
-         LED_OFF(LED_LV1_PORT,LED_LV1_PIN);
+   /*      LED_OFF(LED_LV1_PORT,LED_LV1_PIN);
          LED_OFF(LED_LV2_PORT,LED_LV2_PIN);
          LED_OFF(LED_LV3_PORT,LED_LV3_PIN);
          LED_OFF(LED_LV4_PORT,LED_LV4_PIN);
@@ -394,10 +394,10 @@ void Flash_Times_LED(void)
          LED_OFF(LED_LV6_PORT,LED_LV6_PIN);
          LED_OFF(LED_LV7_PORT,LED_LV7_PIN);
          LED_OFF(LED_LV8_PORT,LED_LV8_PIN);  
-         Flash_times_LED_Count++; 
+     */    Flash_times_LED_Count++; 
         if(Flash_times_LED_Count == 18)
       {   
-         LED_TOG(LED_LV1_PORT,LED_LV1_PIN);
+      /*   LED_TOG(LED_LV1_PORT,LED_LV1_PIN);
          LED_TOG(LED_LV2_PORT,LED_LV2_PIN);
          LED_TOG(LED_LV3_PORT,LED_LV3_PIN);
          LED_TOG(LED_LV4_PORT,LED_LV4_PIN);
@@ -405,7 +405,7 @@ void Flash_Times_LED(void)
          LED_TOG(LED_LV6_PORT,LED_LV6_PIN);
          LED_TOG(LED_LV7_PORT,LED_LV7_PIN);
          LED_TOG(LED_LV8_PORT,LED_LV8_PIN);
-         Flash_times_LED_Count = 0; 
+       */  Flash_times_LED_Count = 0; 
          LED_Count = 1;
          Delay_ms(100); 
       }
