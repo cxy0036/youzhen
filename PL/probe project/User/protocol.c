@@ -109,12 +109,12 @@ void Analysis_Request(void)
 		{		
 			Data_Check_OK = 1;  
 			switch(Receive_Buff[0]){
-//				case FUN_No1 : No1_Fun();break;
-//				case FUN_No2 : No2_Fun();break;//Get_Flash_Times_Level
-//				case FUN_No3 : No3_Fun();break;/* get skin color  */
+				case FUN_No1 : No1_Fun();break;
+				case FUN_No2 : No2_Fun();break;//Get_Flash_Times_Level
+				case FUN_No3 : No3_Fun();break;/* get skin color  */
 				//case FUN_No7 : No7_Fun();break;
 				//case FUN_No8 : No8_Fun();break;
-//				case FUN_No11: No11_Fun();break;/* Get Lamp Type */
+				case FUN_No11: No11_Fun();break;/* Get Lamp Type */
 				//case FUN_No12: No12_Fun();break;
 				//case FUN_No13: No13_Fun();break;
 				//case FUN_No14: No14_Fun();break;  /* skin type */
