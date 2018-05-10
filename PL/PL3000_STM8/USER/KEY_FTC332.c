@@ -1030,9 +1030,9 @@ void Function_Processe(void)
                             if(HV_Level > 3)//if(HV_Level > 5)
                              {
                                HVLevel_set3 = HV_Level;//HVLevel_set5 = HV_Level;
-                               HV_Level = 3;//HV_Level = 5;
-                               HV_Level_Dowm_3 = 1; 
-                               //HV_Level_Dowm_5 = 1; fix
+                               HV_Level = 5;
+                               //HV_Level_Dowm_3 = 1; 
+                               HV_Level_Dowm_5 = 1; 
                              }
                           };break;
                   case 4 :Skin_Color_Type_Count_5 = 0;
@@ -1056,9 +1056,9 @@ void Function_Processe(void)
                            if(HV_Level > 5)//if(HV_Level > 3)
                              { 
                                HVLevel_set5 = HV_Level;//HVLevel_set3 = HV_Level;
-                               HV_Level = 5;//HV_Level = 3;
+                               HV_Level = 3;
                                //HV_Level_Dowm_5 = 1; 
-                               HV_Level_Dowm_5 = 1;//HV_Level_Dowm_3 = 1; 
+                               HV_Level_Dowm_3 = 1; 
                              }
                           };break;
                   case 5 :  Skin_Color_Type_Count_5++;
@@ -1079,7 +1079,18 @@ void Function_Processe(void)
                            {
                              Mode_Trans =  Mode_Flag;
                              Mode_Flag = OFF_FLASH_MODE; 
-                           }  
+                           } 
+                           if(Skin_Color_Type_Count_5 >= 10)
+                          {
+                           Skin_Color_Type_Count_5 = 10; 
+                           if(HV_Level > 5)//if(HV_Level > 3)
+                             { 
+                               HVLevel_set5 = HV_Level;//HVLevel_set3 = HV_Level;
+                               HV_Level = 3;
+                               //HV_Level_Dowm_5 = 1; 
+                               HV_Level_Dowm_3 = 1; 
+                             }
+                          }
                            //if(Skin_Color_Type_Count_5 == 5)
                            //{
                              //Mode_Flag = OFF_FLASH_MODE;   
