@@ -161,7 +161,7 @@ void LED_ALL_ON(void)
 */
 void LED_Level(uint8_t hv_level)
 {
-  if((Skin_Color_Type == 5)&&(Power_Flag == ON)&&(!ERROR_Flag) && (!Lowlamp_Flag))
+  if((Skin_Color_Type == 1)&&(Power_Flag == ON)&&(!ERROR_Flag) && (!Lowlamp_Flag))
   {       
     return ;  
   }
@@ -405,7 +405,9 @@ void Flash_Times_LED(void)
          LED_TOG(LED_LV6_PORT,LED_LV6_PIN);
          LED_TOG(LED_LV7_PORT,LED_LV7_PIN);
          LED_TOG(LED_LV8_PORT,LED_LV8_PIN);
-       */  Flash_times_LED_Count = 0; 
+       */
+        LED_Level(HV_Level);
+        Flash_times_LED_Count = 0; 
          LED_Count = 1;
          Delay_ms(100); 
       }

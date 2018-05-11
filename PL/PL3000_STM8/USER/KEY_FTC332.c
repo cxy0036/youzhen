@@ -1034,7 +1034,7 @@ void Function_Processe(void)
                                //HV_Level_Dowm_3 = 1; 
                                HV_Level_Dowm_5 = 1; 
                              }
-                          };break;
+                          };LED_Level(HV_Level);break;
                   case 4 :Skin_Color_Type_Count_5 = 0;
                           Skin_Color_Type_Count_3 = 0;
                           Skin_Color_Type_Count_1 = 0;
@@ -1060,11 +1060,13 @@ void Function_Processe(void)
                                //HV_Level_Dowm_5 = 1; 
                                HV_Level_Dowm_3 = 1; 
                              }
-                          };break;
+                          };
+                          LED_Level(HV_Level);break;
                   case 5 :  Skin_Color_Type_Count_5++;
                             Skin_Color_Type_Count_4 = 0;
                             Skin_Color_Type_Count_3 = 0;
                             Skin_Color_Type_Count_1 = 0;
+                            
                            if(HVLevel_set3)
                           {  
                             HV_Level = HVLevel_set3;
@@ -1080,7 +1082,7 @@ void Function_Processe(void)
                              Mode_Trans =  Mode_Flag;
                              Mode_Flag = OFF_FLASH_MODE; 
                            } 
-                           if(Skin_Color_Type_Count_5 >= 10)
+                       /*    if(Skin_Color_Type_Count_5 >= 10)
                           {
                            Skin_Color_Type_Count_5 = 10; 
                            if(HV_Level > 3)
@@ -1091,7 +1093,7 @@ void Function_Processe(void)
                                HV_Level_Dowm_3 = 1; 
                              }
                           }
-                           //if(Skin_Color_Type_Count_5 == 5)
+                     */      //if(Skin_Color_Type_Count_5 == 5)
                            //{
                              //Mode_Flag = OFF_FLASH_MODE;   
                            //}
@@ -1099,7 +1101,8 @@ void Function_Processe(void)
                            {
                              Skin_Color_Type_Count_5 = 50;   
                            }
-                      */     ; break;                        
+                      */    ;
+                      LED_Level(HV_Level); break;                        
                   default :Skin_Color_Type_Count_5 = 0;
                            Skin_Color_Type_Count_4 = 0;
                            Skin_Color_Type_Count_3 = 0;

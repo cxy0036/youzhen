@@ -97,6 +97,7 @@
 */
 void LED_GPIO_Init(void);
 void LED_Level(uint8_t hv_level);
+//void LED_L(uint8_t hv_level);
 void LED_OFF_ALL(void);
 void LED_Multi_Disply(void);
 void LED_ALL_ON(void);
