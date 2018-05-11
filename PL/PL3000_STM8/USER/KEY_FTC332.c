@@ -1027,7 +1027,7 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_3  >= 10)
                            {
                             Skin_Color_Type_Count_3 = 10;
-                            if(HV_Level > 3)//if(HV_Level > 5)
+                            if(HV_Level > 5)
                              {
                                HVLevel_set3 = HV_Level;//HVLevel_set5 = HV_Level;
                                HV_Level = 5;
@@ -1053,7 +1053,7 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_4 >= 10)
                           {
                            Skin_Color_Type_Count_4 = 10; 
-                           if(HV_Level > 5)//if(HV_Level > 3)
+                           if(HV_Level > 3)
                              { 
                                HVLevel_set5 = HV_Level;//HVLevel_set3 = HV_Level;
                                HV_Level = 3;
@@ -1083,7 +1083,7 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_5 >= 10)
                           {
                            Skin_Color_Type_Count_5 = 10; 
-                           if(HV_Level > 5)//if(HV_Level > 3)
+                           if(HV_Level > 3)
                              { 
                                HVLevel_set5 = HV_Level;//HVLevel_set3 = HV_Level;
                                HV_Level = 3;
@@ -1095,11 +1095,11 @@ void Function_Processe(void)
                            //{
                              //Mode_Flag = OFF_FLASH_MODE;   
                            //}
-                           if(Skin_Color_Type_Count_5 >= 50)
+                     /*      if(Skin_Color_Type_Count_5 >= 50)
                            {
                              Skin_Color_Type_Count_5 = 50;   
                            }
-                           ; break;                        
+                      */     ; break;                        
                   default :Skin_Color_Type_Count_5 = 0;
                            Skin_Color_Type_Count_4 = 0;
                            Skin_Color_Type_Count_3 = 0;
