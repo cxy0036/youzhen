@@ -172,7 +172,7 @@ void Communication_Fun(void)
       //Delay_us(300);  
       da[0] = Lock_Flag;
       da[1] = Full_Charge_Flag;
-      if(Mode_Flag != OFF_FLASH_MODE)
+      if((Mode_Flag != OFF_FLASH_MODE)&&(Mode_Flag !=0))
       {
         da[2] = Mode_Flag;
       }else{

@@ -473,8 +473,10 @@ void Key_Process_Fun(void)
               LED_Flash_Long_Count = 0;
               LED_Flash_Count = 0;
                 if(Mode_Flag == OFF_FLASH_MODE)
+                  //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
                   {
-                     Mode_Flag = Mode_Trans;
+                     //Mode_Flag = Mode_Trans; 
+                       Mode_Flag = STANDARD_MODE; 
                   }
               Mode_Change = 1;
               switch(Mode_Flag){
@@ -893,8 +895,9 @@ void Key_Mode_Proc(void)
     Level_Change = 1;
     Key_Push = 0;
     if(Mode_Flag == OFF_FLASH_MODE)
+    //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
     {
-       Mode_Flag=Mode_Trans;
+       Mode_Flag = Mode_Trans;
     }
     switch(Mode_Flag){
     case STANDARD_MODE: Mode_Flag = STANDARD_MULTI_MODE;
