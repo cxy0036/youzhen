@@ -161,7 +161,7 @@ void LED_ALL_ON(void)
 */
 void LED_Level(uint8_t hv_level)
 {
-  if((Skin_Color_Type == 1)&&(Power_Flag == ON)&&(!ERROR_Flag) && (!Lowlamp_Flag))
+  if((Skin_Color_Type == 2)&&(Power_Flag == ON)&&(!ERROR_Flag) && (!Lowlamp_Flag))
   {       
     return ;  
   }
