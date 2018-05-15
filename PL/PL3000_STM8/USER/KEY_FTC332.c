@@ -418,7 +418,7 @@ void Key_Process_Fun(void)
                                BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
                              } */
                              //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
-                             Key_Level_Up_Proc();
+                             if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Up_Proc();
                              Beep_LEVEL_Proc();
                              LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
                              
@@ -434,7 +434,7 @@ void Key_Process_Fun(void)
                              Key_Push = KEY_DEC;
                              LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
                              Beep_LEVEL_Proc();
-                             Key_Level_Down_Proc(); 
+                             if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Down_Proc(); 
                            }else{
                              if(Key_Push == KEY_DEC)
                              {
@@ -473,8 +473,10 @@ void Key_Process_Fun(void)
               LED_Flash_Long_Count = 0;
               LED_Flash_Count = 0;
                 if(Mode_Flag == OFF_FLASH_MODE)
+                  //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
                   {
-                     Mode_Flag = Mode_Trans;
+                     //Mode_Flag = Mode_Trans; 
+                       Mode_Flag = STANDARD_MODE; 
                   }
               Mode_Change = 1;
               switch(Mode_Flag){
@@ -893,8 +895,9 @@ void Key_Mode_Proc(void)
     Level_Change = 1;
     Key_Push = 0;
     if(Mode_Flag == OFF_FLASH_MODE)
+    //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
     {
-       Mode_Flag=Mode_Trans;
+       Mode_Flag = Mode_Trans;
     }
     switch(Mode_Flag){
     case STANDARD_MODE: Mode_Flag = STANDARD_MULTI_MODE;
@@ -1079,6 +1082,10 @@ void Function_Processe(void)
                           }                  
                            if(Skin_Color_Type_Count_5 < 2)
                            {
+                             if(Mode_Flag==5)
+                             {
+                               Mode_Flag = 1;
+                             }
                              Mode_Trans =  Mode_Flag;
                              Mode_Flag = OFF_FLASH_MODE; 
                            } 
@@ -1097,11 +1104,11 @@ void Function_Processe(void)
                            //{
                              //Mode_Flag = OFF_FLASH_MODE;   
                            //}
-                     /*      if(Skin_Color_Type_Count_5 >= 50)
+                           if(Skin_Color_Type_Count_5 >= 50)
                            {
                              Skin_Color_Type_Count_5 = 50;   
                            }
-                      */    ;
+                          ;
                       LED_Level(HV_Level); break;                        
                   default :Skin_Color_Type_Count_5 = 0;
                            Skin_Color_Type_Count_4 = 0;

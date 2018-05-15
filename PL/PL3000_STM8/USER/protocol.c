@@ -154,7 +154,7 @@ void Communication_Fun(void)
             Lowlamp_Flag = 0;
           }
           Lowlamp_Flag = Receive_Buff[6];
-          if((Flash_Flag)&&( Skin_Color_Type != OFF_FLASH_MODE)&&(Full_Charge_Flag))
+          if((Flash_Flag)&&( Mode_Flag != OFF_FLASH_MODE)&&(Full_Charge_Flag))
           {
             Flash_Ready = 1;
             time_out_power_off = 0;

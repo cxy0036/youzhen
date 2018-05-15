@@ -4,14 +4,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "SN8F5702.h"
 
-#define COLOR_TPYE_5_H										1629//1200//1200//1000  /* color type 5:  1.2v */
+#define COLOR_TPYE_5_H										1429//1629//1200//1200//1000  /* color type 5:  1.2v */
 #define COLOR_TPYE_5_L                    0//100//100  /* color type 5: 0.14v */
 
-#define COLOR_TPYE_4_H										1870//1450//1450//1250 /* color type 4: 2.1v */
-#define COLOR_TPYE_4_L                    1630//1401//1201  /* color type 4: 1.8v */
+#define COLOR_TPYE_4_H										1770//1870//1450//1450//1250 /* color type 4: 2.1v */
+#define COLOR_TPYE_4_L                    1430//1630//1401//1201  /* color type 4: 1.8v */
 
 #define COLOR_TPYE_3_H										2040//1640//1400  /* color type 3: 2.4v */
-#define COLOR_TPYE_3_L                    1871//1551//1351 /* color type 3: 2.1v */
+#define COLOR_TPYE_3_L                    1771//1871//1551//1351 /* color type 3: 2.1v */
 
 #define COLOR_TPYE_1_H                    3577//3577  /* color type 1: 4v */
 #define COLOR_TPYE_1_L                    2041//1751//1551  /* color type 1: 2.4v */
