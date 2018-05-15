@@ -46,9 +46,9 @@ void main (void)
   P00_PushPull_Mode;
 	P01_PushPull_Mode;
 	
-	FDC633_CTL=0;
+	FDC633_CTL=1;
 //	P01=1;
-	AIC3415_CTL=0;
+	AIC3415_CTL=1;
 	//P07=1	;
 	BUZ=0;	
 	P03=0;

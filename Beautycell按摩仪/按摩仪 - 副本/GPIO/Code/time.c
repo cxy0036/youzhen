@@ -75,8 +75,8 @@ void Timer0_ISR (void) interrupt 1          //interrupt address is 0x000B
 				   set_TR2;
 				   on_flag=1;
 					 buz_flag=1;
-					 FDC633_CTL=1;
-					 AIC3415_CTL=1;
+					 //FDC633_CTL=1;
+					 //AIC3415_CTL=1;
 					 voltage1();
 					// P04=0;	 
 					 LED1=0;
@@ -136,7 +136,8 @@ void Timer0_ISR (void) interrupt 1          //interrupt address is 0x000B
 					 PWM1_P14_OUTPUT_DISABLE;
 					 P14_PushPull_Mode;
 					 P14=0;
-					 
+					 flash_flag=0;//no flash
+						moto_stop();
 					 //while(POW_RF==0);
 				 }
 			  	 
@@ -386,8 +387,18 @@ void Timer1_ISR (void) interrupt 3          //interrupt address is 0x001B
 
 	  if(buz_count>2401)
  	  {
+
 			buzfirsh_flag=0;
 	    buz_flag=0;BUZ=0;buz_count=0;   //close system
+			clr_TR0;
+			clr_TR1;
+			clr_TR2;
+		  clr_TR3;
+			pwm_stop();
+		  PWM1_P14_OUTPUT_DISABLE;
+			P14_PushPull_Mode;
+			P14=0;
+		  P04=0;
 	    FDC633_CTL=0;
    	  AIC3415_CTL=0;
 			key_flag=0;
