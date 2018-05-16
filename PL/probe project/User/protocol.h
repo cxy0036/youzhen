@@ -20,9 +20,9 @@
 #define FUN_No9											0x09  /* Flash Ready OK Flag */
 #define FUN_No10										0x0A  /* Flash Level */
 #define FUN_No11                    0x0B  /* Get Lamp Type */
-//#define FUN_No12                    0x0C  /* get Mode Type */
-//#define FUN_No13                    0x0D  /* Lock Flag */
-//#define FUN_No14                    0x0E  /* skin type */
+#define FUN_No12                    0x0C  /* get Mode Type */
+#define FUN_No13                    0x0D  /* Lock Flag */
+#define FUN_No14                    0x0E  /* skin type */
 #define FUN_No15                    0x0F  /* All */
 //#define FUN_No16                    0x10
 
@@ -41,9 +41,9 @@ void No3_Fun(void);
 //void No8_Fun(void);
 //void No10_Fun(void);
 void No11_Fun(void);
-//void No12_Fun(void);
-//void No13_Fun(void);
-//void No14_Fun(void);
+void No12_Fun(void);
+void No13_Fun(void);
+void No14_Fun(void);
 void No15_Fun(void);
 
 #endif

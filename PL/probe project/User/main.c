@@ -11,7 +11,7 @@
 #include "key.h"
 
 extern uint8_t Receive_Buffer_Full_Flag;
-
+extern void Uart_SendByte(uint8_t Data);
 void main(void)
 {
 	//uint16_t rnum; //flash_count = 32,
@@ -26,7 +26,7 @@ void main(void)
 	IEN0 |= 0x80;
 	while(1)
 	{
-		
+		Uart_SendByte(0xcc);
 		Error_Check();
 		Key_Process();
 		Analysis_Request();		

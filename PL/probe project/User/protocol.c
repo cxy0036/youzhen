@@ -12,6 +12,7 @@ uint8_t Flash_Times_Level = 0;
 uint8_t Lock_Flag = 1;
 //uint8_t Get_Mode_Type = 1;
 uint8_t Flash_Ready = 0;
+uint8_t ADD = 0,DEC = 0,add_ = 0,dec_ = 0;
 
 extern uint8_t No_Skin_Flag;
 extern uint8_t Mode_Type;
@@ -115,9 +116,9 @@ void Analysis_Request(void)
 				//case FUN_No7 : No7_Fun();break;
 				//case FUN_No8 : No8_Fun();break;
 				case FUN_No11: No11_Fun();break;/* Get Lamp Type */
-				//case FUN_No12: No12_Fun();break;
-				//case FUN_No13: No13_Fun();break;
-				//case FUN_No14: No14_Fun();break;  /* skin type */
+				case FUN_No12: No12_Fun();break;
+				case FUN_No13: No13_Fun();break;
+				case FUN_No14: No14_Fun();break;  /* skin type */
 				case FUN_No15: No15_Fun();break;
 				default : break;
 			}
@@ -174,21 +175,21 @@ void No11_Fun(void)  /* Get Lamp Type */
 {
 	Send_Data(&Lamp_Type,1);
 }
-/*
-void No12_Fun(void)  /* get Mode Type */
-/*{
-	Send_Data(&Mode_Type,1);
-}*/
 
-/*void No13_Fun(void)  /* Lock Flag */
-/*{
-	Lock_Flag = Receive_Buff[2];
-}*/
- /*
+void No12_Fun(void)  /* get Mode Type */
+{
+	DEC= 1;dec_++;// //Send_Data(&Mode_Type,1);
+}
+
+void No13_Fun(void)  /* Lock Flag */
+{
+	ADD= 1;add_++;// //Lock_Flag = Receive_Buff[2];
+}
+
 void No14_Fun(void)  /* skin type */
-/*{
-	Send_Data(&Skin_Tpye,1);
-}*/
+{
+	dec_ = 0;add_ = 0;//Send_Data(&Skin_Tpye,1);
+}
 
 void No15_Fun(void)  /*all */
 {

@@ -77,6 +77,7 @@
 #define KEY_AUTO                 0x04
 #define KEY_POWER                0x08
 #define KEY_UNLOCK               0x03       /* bit7 and bit5 */
+#define KEY_FIX                  0x0b
 
 /*
 ********************************************************************************

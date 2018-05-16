@@ -136,7 +136,7 @@ void Timer0_ISR (void) interrupt 1          //interrupt address is 0x000B
 					 PWM1_P14_OUTPUT_DISABLE;
 					 P14_PushPull_Mode;
 					 P14=0;
-					 flash_flag=0;//no flash
+					 //flash_flag=0;//no flash
 						moto_stop();
 					 //while(POW_RF==0);
 				 }

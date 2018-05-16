@@ -5,7 +5,7 @@
 #include "SN8F5702.h"
 
 #define COLOR_TPYE_5_H										1429//1629//1200//1200//1000  /* color type 5:  1.2v */
-#define COLOR_TPYE_5_L                    0//100//100  /* color type 5: 0.14v */
+#define COLOR_TPYE_5_L                    100//100//100  /* color type 5: 0.14v */
 
 #define COLOR_TPYE_4_H										1770//1870//1450//1450//1250 /* color type 4: 2.1v */
 #define COLOR_TPYE_4_L                    1430//1630//1401//1201  /* color type 4: 1.8v */
@@ -18,7 +18,7 @@
  
 #define COLOR_TYPE_STANDARD_              65  /* color standard : 0.080v */
 
-
+#define readdata_1V												100//¡÷0.1v ¡÷100
 
 void Skin_Color_Check(void);
 

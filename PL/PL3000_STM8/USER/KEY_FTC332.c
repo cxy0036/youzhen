@@ -38,6 +38,10 @@ uint8_t Skin_Color_Type_Count_4 = 0;
 uint8_t Skin_Color_Type_Count_5 = 0;
 uint8_t HV_Level_Count = 0;
 
+uint8_t FUN_FIX = 0,FUN_ = 0;
+uint8_t FIX_DEC = 0;
+uint8_t FIX_ADD = 0;
+uint8_t FIX_CONT = 0;
 
 uint8_t Key_Int = 0;  /* Key into Interrupt flag */
 uint8_t BEEP_Count = 0;
@@ -382,8 +386,37 @@ void Key_Process_Fun(void)
         }
       }
     }else{  /* if lock OFF, process all key */
+      if(Key_Cont == KEY_FIX)
+      {
+        if((Key_Cont & KEY_FIX) && (Key_Cont & KEY_ADD) && (Key_Cont & KEY_DEC) || !(Key_Cont & KEY_POWER))
+        {
+            Key_count = 0;Key_Push = KEY_FIX;
+             LED_OFF(LED_POWER_SW_PORT,LED_DEC_SW_PIN);        
+             LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
+             LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
+        }
+      }
+      if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC) || !(Key_Cont & KEY_POWER))
+      {
+            BEEP->CSR =0X09;
+            BEEP->CSR|=0x20;
+            BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
+           LED_ON(LED_POWER_SW_PORT,LED_DEC_SW_PIN);        
+           LED_ON(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
+           LED_ON(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
+      }
       switch(Key_Cont)
       {
+//        case KEY_POWER  :  FUN_ = 1;
+        case KEY_FIX    :  FIX_CONT++;
+                           if(FIX_CONT == 20)
+                           {FUN_FIX = 1;FUN_ = 1;}
+                           else if(FIX_CONT == 140)
+                           {
+                             FIX_CONT = 0;
+                             FUN_FIX = 0;
+                             FUN_ = 1;
+                           }break;
         case KEY_AUTO   :  if(Key_Trg == KEY_AUTO)  /* auto  key, first push*/ 
                            { 
                              Key_count = 0;
@@ -418,7 +451,8 @@ void Key_Process_Fun(void)
                                BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
                              } */
                              //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
-                             if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Up_Proc();
+                             if(FUN_FIX) FIX_ADD = 1;
+                             else if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Up_Proc();
                              Beep_LEVEL_Proc();
                              LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
                              
@@ -434,7 +468,8 @@ void Key_Process_Fun(void)
                              Key_Push = KEY_DEC;
                              LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
                              Beep_LEVEL_Proc();
-                             if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Down_Proc(); 
+                             if(FUN_FIX) FIX_DEC = 1;
+                             else if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Down_Proc(); 
                            }else{
                              if(Key_Push == KEY_DEC)
                              {
