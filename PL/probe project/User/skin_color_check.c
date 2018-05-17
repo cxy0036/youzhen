@@ -20,7 +20,7 @@ void Skin_Color_Check(void)
 //		readdata = readdata - 500;
 	//readdataG = ADC_Read_Channel_Fun(ADC_RGB_G_CHANNEL);
 	//readdata = readdataG - readdataR;
-	//ADC_adjust();
+//	ADC_adjust();
 	if((readdata < COLOR_TPYE_1_H) && (readdata > COLOR_TPYE_1_L))
 	{	 
 			Skin_Tpye = 1;		

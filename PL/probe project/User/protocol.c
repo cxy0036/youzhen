@@ -181,7 +181,7 @@ void No12_Fun(void)  /* get Mode Type */
 //	if(adc_level_flag & 0x82)adc_level = 0;
 //	adc_level_flag = adc_level_flag & 0x81;
 	adc_level++;//Send_Data(&Mode_Type,1);
-	if(adc_level == 0x1f)adc_level = 0x1e;
+	if(adc_level == 0x1a)adc_level = 0x19;
 }
 
 void No13_Fun(void)  /* Lock Flag */
@@ -189,7 +189,7 @@ void No13_Fun(void)  /* Lock Flag */
 //	if(adc_level_flag & 0x81)adc_level = 0;
 //	adc_level_flag = adc_level_flag & 0x82;
 	adc_level--;//Lock_Flag = Receive_Buff[2];
-	if(adc_level == 0)adc_level = 0x01;
+	if(adc_level == 0x03)adc_level = 0x04;
 }
  
 void No14_Fun(void)  /* skin type */

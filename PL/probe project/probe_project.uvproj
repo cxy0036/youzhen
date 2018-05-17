@@ -389,11 +389,6 @@
               <FilePath>.\User\delay.c</FilePath>
             </File>
             <File>
-              <FileName>EEPROM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\EEPROM.c</FilePath>
-            </File>
-            <File>
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\protocol.c</FilePath>
