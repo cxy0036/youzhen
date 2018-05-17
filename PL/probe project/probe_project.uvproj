@@ -174,7 +174,7 @@
             <Capability>1</Capability>
             <DriverSelection>4102</DriverSelection>
           </Flash1>
-          <bUseTDR>1</bUseTDR>
+          <bUseTDR>0</bUseTDR>
           <Flash2>SNLINK\SNLINK.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
