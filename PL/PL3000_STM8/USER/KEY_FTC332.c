@@ -1007,12 +1007,14 @@ void Key_Fix_Proc(void)
       if(Lock_FIX<3)
         {
           LED_ON(LED_LOCK_PORT,LED_LOCK_PIN);
+          LED_ON(LED_MUTE_PORT,LED_MUTE_PIN);
           FUN_ = 1;
         }
       else
         {
           Lock_FIX = ON;
           LED_OFF(LED_LOCK_PORT,LED_LOCK_PIN);
+          LED_OFF(LED_MUTE_PORT,LED_MUTE_PIN);
           FUN_ = 1;
         }
       Key_count = 0;
@@ -1083,7 +1085,7 @@ void Function_Processe(void)
      Flash_Times_LED(); 
     if((!ERROR_Flag) && (!Lowlamp_Flag))
     {
-     // ERROR_CHK_Fun();   /* error check, set error flag*/     
+      ERROR_CHK_Fun();   /* error check, set error flag*/     
       if(Lock_Flag == OFF)
       {   
 

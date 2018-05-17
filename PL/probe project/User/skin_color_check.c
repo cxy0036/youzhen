@@ -13,8 +13,11 @@ void ADC_adjust(void);
 void Skin_Color_Check(void)
 {
 	readdata = ADC_Read_Channel_Fun(ADC_RGB_R_CHANNEL);
-	if(readdata>500)
-		readdata = readdata - 500;
+		if(adc_level>0x0f)
+			readdata = readdata + readdata_1V*(adc_level-0x0f);
+		else if(adc_level<0x0f)
+			readdata = readdata - readdata_1V*(0x0f-adc_level);
+//		readdata = readdata - 500;
 	//readdataG = ADC_Read_Channel_Fun(ADC_RGB_G_CHANNEL);
 	//readdata = readdataG - readdataR;
 	//ADC_adjust();
@@ -36,11 +39,11 @@ void Skin_Color_Check(void)
 	}	
 }
 
-void ADC_adjust(void)
-{
-		if(adc_level_flag & 0x81)
-			readdata = readdata + readdata_1V*adc_level;
-		else if(adc_level_flag & 0x82)
-			readdata = readdata - readdata_1V*adc_level;
-}
+//void ADC_adjust(void)
+//{
+//		if(adc_level_flag & 0x81)
+//			readdata = readdata + readdata_1V*adc_level;
+//		else if(adc_level_flag & 0x82)
+//			readdata = readdata - readdata_1V*adc_level;
+//}
 	

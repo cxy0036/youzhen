@@ -12,7 +12,7 @@ uint8_t Flash_Times_Level = 0;
 uint8_t Lock_Flag = 1;
 //uint8_t Get_Mode_Type = 1;
 uint8_t Flash_Ready = 0;
-uint8_t adc_level = 0,adc_level_flag = 0,lock_fix = 0;
+uint8_t adc_level = 0x0f,adc_level_flag = 0,lock_fix = 0;
 
 extern uint8_t No_Skin_Flag;
 extern uint8_t Mode_Type;
@@ -178,16 +178,18 @@ void No11_Fun(void)  /* Get Lamp Type */
 
 void No12_Fun(void)  /* get Mode Type */
 {
-	if(adc_level_flag & 0x82)adc_level = 0;
-	adc_level_flag = adc_level_flag & 0x81;
+//	if(adc_level_flag & 0x82)adc_level = 0;
+//	adc_level_flag = adc_level_flag & 0x81;
 	adc_level++;//Send_Data(&Mode_Type,1);
+	if(adc_level == 0x1f)adc_level = 0x1e;
 }
 
 void No13_Fun(void)  /* Lock Flag */
 {
-	if(adc_level_flag & 0x81)adc_level = 0;
-	adc_level_flag = adc_level_flag & 0x82;
-	adc_level++;//Lock_Flag = Receive_Buff[2];
+//	if(adc_level_flag & 0x81)adc_level = 0;
+//	adc_level_flag = adc_level_flag & 0x82;
+	adc_level--;//Lock_Flag = Receive_Buff[2];
+	if(adc_level == 0)adc_level = 0x01;
 }
  
 void No14_Fun(void)  /* skin type */
@@ -198,7 +200,7 @@ void No14_Fun(void)  /* skin type */
 	if(lock_fix == 1)
 	{	
 		adc_level_flag = 0x80;
-		adc_level = 0;
+		adc_level = 0x0f;
 	}
 	else if(lock_fix == 2)
 	{
