@@ -56,6 +56,7 @@ uint8_t HV_Level_Dowm_5 = 0;
 uint8_t Power_Flag = OFF;  /* POWER Flag, defualt OFF */
 uint8_t Mute_Flag = OFF;  /* MUTE Flag, defualt OFF */
 uint8_t Lock_Flag = ON;  /* LOCK Flag, defualt ON */
+uint8_t Lock_FIX = ON;
 uint8_t Mode_Flag = STANDARD_MODE; /* Mode Flag, defualt Standard mode */
 
 uint16_t time_out_power_off = 0;  /* Timeout Power off count */
@@ -378,7 +379,7 @@ void Key_Process_Fun(void)
       }
       if((Key_Push != KEY_POWER)&&(ERROR_Flag ==0)) /* if power key not push ,if unlock, can power off*/
       {       
-        if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))
+        if(!(Key_Cont & KEY_UNLOCK))// || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))
         {  /* if unlock realse */
           Key_Push = 0;  
           LED_ON(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
@@ -388,35 +389,40 @@ void Key_Process_Fun(void)
     }else{  /* if lock OFF, process all key */
       if(Key_Cont == KEY_FIX)
       {
-        if((Key_Cont & KEY_FIX) && (Key_Cont & KEY_ADD) && (Key_Cont & KEY_DEC) || !(Key_Cont & KEY_POWER))
+        if((Key_Trg == KEY_FIX) || (Key_Trg == KEY_ADD) || (Key_Trg == KEY_DEC) || (Key_Trg == KEY_POWER))
         {
             Key_count = 0;Key_Push = KEY_FIX;
              LED_OFF(LED_POWER_SW_PORT,LED_DEC_SW_PIN);        
              LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
              LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
+        }else{
+          if(Key_Push == KEY_FIX)
+          {
+            Key_Fix_Proc();
+          }
         }
       }
-      if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC) || !(Key_Cont & KEY_POWER))
-      {
-            BEEP->CSR =0X09;
-            BEEP->CSR|=0x20;
-            BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
+
+        if(!(Key_Cont & KEY_FIX))
+        {
+          if(Key_Push == KEY_FIX)Key_Push = 0;
            LED_ON(LED_POWER_SW_PORT,LED_DEC_SW_PIN);        
            LED_ON(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
            LED_ON(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
-      }
+        }
+
       switch(Key_Cont)
       {
 //        case KEY_POWER  :  FUN_ = 1;
-        case KEY_FIX    :  FIX_CONT++;
-                           if(FIX_CONT == 20)
-                           {FUN_FIX = 1;FUN_ = 1;}
-                           else if(FIX_CONT == 140)
-                           {
-                             FIX_CONT = 0;
-                             FUN_FIX = 0;
-                             FUN_ = 1;
-                           }break;
+//        case KEY_FIX    :  FIX_CONT++;
+//                           if(FIX_CONT == 20)
+//                           {FUN_FIX = 1;FUN_ = 1;}
+//                           else if(FIX_CONT == 140)
+//                           {
+//                             FIX_CONT = 0;
+//                             FUN_FIX = 0;
+//                             FUN_ = 1;
+//                           }break;
         case KEY_AUTO   :  if(Key_Trg == KEY_AUTO)  /* auto  key, first push*/ 
                            { 
                              Key_count = 0;
@@ -451,7 +457,7 @@ void Key_Process_Fun(void)
                                BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
                              } */
                              //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
-                             if(FUN_FIX) FIX_ADD = 1;
+                             if(Lock_FIX == 2) FIX_ADD = 1;
                              else if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Up_Proc();
                              Beep_LEVEL_Proc();
                              LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
@@ -468,7 +474,7 @@ void Key_Process_Fun(void)
                              Key_Push = KEY_DEC;
                              LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
                              Beep_LEVEL_Proc();
-                             if(FUN_FIX) FIX_DEC = 1;
+                             if(Lock_FIX == 2) FIX_DEC = 1;
                              else if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))Key_Level_Down_Proc(); 
                            }else{
                              if(Key_Push == KEY_DEC)
@@ -973,7 +979,45 @@ void Key_Mode_Proc(void)
       }
   } 
 }
-
+/*
+********************************************************************************
+*                           KEY FIX FUNCTIONS
+*
+* Description: This function Process FIX.
+*
+* Arguments  : none.
+*
+* Note(s)    : Unlock lock flag.
+********************************************************************************
+*/
+void Key_Fix_Proc(void)
+{
+  if(Lock_FIX)
+  {
+    Key_count ++;
+    if(Key_count == 40)
+    {
+      Lock_FIX ++;
+      Key_Push = 0;
+      //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
+      BEEP->CSR=0x09;
+      BEEP->CSR|=0x20; //สนฤÜทไร๙ฦ๗        
+      Delay_ms(200);
+      BEEP_Cmd(DISABLE);//BEEP_OFF(BEEP_PORT,BEEP_PIN);
+      if(Lock_FIX<3)
+        {
+          LED_ON(LED_LOCK_PORT,LED_LOCK_PIN);
+          FUN_ = 1;
+        }
+      else
+        {
+          Lock_FIX = ON;
+          LED_OFF(LED_LOCK_PORT,LED_LOCK_PIN);
+        }
+      Key_count = 0;
+    }
+  }  
+}
 /*
 ********************************************************************************
 *                           KEY UNLOCK FUNCTIONS

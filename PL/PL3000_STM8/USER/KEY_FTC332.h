@@ -126,6 +126,7 @@ void Standard_Mode_Flash(void);
 void Auto_Mode_Flash(void);
 void Multi_Standard_Mode_Flash(void);
 void Error_Power_Off_Proc(void);
+void Key_Fix_Proc(void);
 
 #endif /*__KEY_H*/
 
