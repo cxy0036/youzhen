@@ -174,7 +174,7 @@
             <Capability>1</Capability>
             <DriverSelection>4102</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>SNLINK\SNLINK.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -387,6 +387,11 @@
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>EEPROM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\EEPROM.c</FilePath>
             </File>
             <File>
               <FileName>protocol.c</FileName>

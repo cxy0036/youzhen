@@ -40,7 +40,6 @@ uint8_t Data_Check_OK = 0;
 uint8_t Recevie_Data_Error = 0;
 uint8_t Communication_Error_Count = 0;
 
-extern uint8_t FIX_ADD,FIX_DEC,FUN_;
 
 static const uint8_t CRC_Table[256]={
     0x00,0x31,0x62,0x53,0xc4,0xf5,0xa6,0x97,0xb9,0x88,0xdb,0xea,0x7d,0x4c,0x1f,0x2e,
@@ -186,13 +185,7 @@ void Communication_Fun(void)
       }else{ 
              da[4] = HV_Level; 
            }
-      if(FIX_ADD)
-      {Send_Request(FUN_No12,da,5);FIX_ADD = 0;} 
-      else if(FIX_DEC)
-      {Send_Request(FUN_No13,da,5);FIX_DEC = 0;}
-      else if(FUN_)
-      {Send_Request(FUN_No14,da,5);FUN_ = 0;}  
-      Send_Request(FUN_No15,da,5);
+      Send_Request(FUN_No15,da,5); 
       Delay_us(300);
       UART_DE_R;
     }

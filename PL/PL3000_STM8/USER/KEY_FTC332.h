@@ -77,7 +77,6 @@
 #define KEY_AUTO                 0x04
 #define KEY_POWER                0x08
 #define KEY_UNLOCK               0x03       /* bit7 and bit5 */
-#define KEY_FIX                  0x0b
 
 /*
 ********************************************************************************
@@ -126,7 +125,6 @@ void Standard_Mode_Flash(void);
 void Auto_Mode_Flash(void);
 void Multi_Standard_Mode_Flash(void);
 void Error_Power_Off_Proc(void);
-void Key_Fix_Proc(void);
 
 #endif /*__KEY_H*/
 
