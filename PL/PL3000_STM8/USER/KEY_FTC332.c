@@ -344,12 +344,17 @@ void Key_Process_Fun(void)
       }else{
        if(Key_Push == KEY_POWER)
        {
-         Key_Power_Off_Proc();  
+         Key_Power_Off_Proc(); 
        }
       }
     }
     if(Lock_Flag == ON)  /* if lock on, only process unlock key */
     {
+      if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))
+      {
+        LED_ON(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
+        LED_ON(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
+      }
       if(!(Key_Cont & KEY_POWER))  /* KEY_POWER release*/
       {
          if(ERROR_Flag ==0)
@@ -373,7 +378,7 @@ void Key_Process_Fun(void)
            }
          }
       }
-      if((Key_Push != KEY_POWER)&&(ERROR_Flag ==0)) /* if power key not push ,if unlock, can power off*/
+      if((Key_Push != KEY_POWER)&&(ERROR_Flag ==0)) /* if power key not push ,if unlock, can power off*/     
       {       
         if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))
         {  /* if unlock realse */
@@ -566,6 +571,8 @@ void Key_Process_Fun(void)
       time_out_power_off = 0;
     }
   }else{  /* if power off, check power on key */
+    LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
+    LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
     if(Key_Cont == KEY_POWER)  /* power key push */
     {
      if(Key_Trg == KEY_POWER)  /* first push */
