@@ -442,7 +442,7 @@ void Key_Process_Fun(void)
                              LED_OFF(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
                              Beep_LEVEL_Proc();
                              //if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))
-                               Key_Level_Down_Proc(); 
+                               //Key_Level_Down_Proc(); 
                            }else{
                              if(Key_Push == KEY_DEC)
                              {
@@ -551,7 +551,7 @@ void Key_Process_Fun(void)
           {
             if(Lock_Flag == OFF)
             {             
-              //Key_Level_Down_Proc();              
+              Key_Level_Down_Proc();              
             }
           }      
         }
