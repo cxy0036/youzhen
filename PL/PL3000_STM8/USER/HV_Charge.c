@@ -414,7 +414,7 @@ void Full_Charge_Judgment(uint16_t read_hv)
    }
   if((Mode_Flag == AUTO_MULTI_MODE) || (Mode_Flag == AUTO_MODE))//if(Mode_Flag == AUTO_MODE)//
   {
-    Charge_Wait_Time = 88;  //140
+    Charge_Wait_Time = 88;  //3S   140
   }
   else{
         if(HV_Level <= 2)

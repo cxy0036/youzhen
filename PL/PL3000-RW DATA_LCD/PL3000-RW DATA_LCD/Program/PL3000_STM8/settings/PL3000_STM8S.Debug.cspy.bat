@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "C:\Users\yz\Desktop\ÉÕÂ¼\PL3000\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.general.xcl" --backend -f "C:\Users\yz\Desktop\ÉÕÂ¼\PL3000\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\work cxy\PL\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.general.xcl" --backend -f "E:\work cxy\PL\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "C:\Users\yz\Desktop\ÉÕÂ¼\PL3000\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\yz\Desktop\ÉÕÂ¼\PL3000\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\work cxy\PL\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.general.xcl" "--debug_file=%~1" --backend -f "E:\work cxy\PL\PL3000-RW DATA_LCD\PL3000-RW DATA_LCD\Program\PL3000_STM8\settings\PL3000_STM8S.Debug.driver.xcl" 
 
 @echo off 
 :end

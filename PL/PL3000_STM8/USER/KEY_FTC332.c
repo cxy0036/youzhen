@@ -1034,17 +1034,18 @@ void Function_Processe(void)
                            if(Skin_Color_Type_Count_3  >= 10)
                            {
                              Skin_Color_Type_Count_3 = 10;
-                           }
-                           if(HV_Level > 5)
-                           {                        
-                               HV_Level_Dowm_5 = 1; 
-                               Skin_HV_Ready = 0;
-                               LED_Level(5);
-                           }else
-                           {
-                               LED_Level(HV_Level);
-                               HV_Level_Dowm_5 = 0;
-                               Skin_HV_Ready = 1;
+                           
+                             if(HV_Level > 5)
+                             {                        
+                                 HV_Level_Dowm_5 = 1; 
+                                 Skin_HV_Ready = 0;
+                                 LED_Level(5);
+                             }else
+                             {
+                                 LED_Level(HV_Level);
+                                 HV_Level_Dowm_5 = 0;
+                                 Skin_HV_Ready = 1;
+                             }
                            }
                            if(Mode_Trans)
                           {  
@@ -1084,24 +1085,26 @@ void Function_Processe(void)
                           Skin_Color_Type_Count_1 = 0;
                           HV_Level_Dowm_5 = 0;
                           LED_Count = 0;//非颜色5时，清零
+                          Skin_Color_Type_Count_4++;
                           if(Skin_Color_Type_Count_4 == 1)
                           {
                            LED_Level(HV_Level);
                           }
                           if(Skin_Color_Type_Count_4 >= 10)
                           {
-                           Skin_Color_Type_Count_4 = 10;
-                          }
-                           if(HV_Level > 3)
-                           {                             
-                               HV_Level_Dowm_3 = 1; 
-                               LED_Level(3);
-                               Skin_HV_Ready = 0;
-                           }else
-                           {
-                               LED_Level(HV_Level);
-                               HV_Level_Dowm_3 = 0;
-                               Skin_HV_Ready = 1;
+                              Skin_Color_Type_Count_4 = 10;
+                          
+                             if(HV_Level > 3)
+                             {                             
+                                 HV_Level_Dowm_3 = 1; 
+                                 LED_Level(3);
+                                 Skin_HV_Ready = 0;
+                             }else
+                             {
+                                 LED_Level(HV_Level);
+                                 HV_Level_Dowm_3 = 0;
+                                 Skin_HV_Ready = 1;
+                             }
                            }
                            if(Mode_Trans)
                           {  
