@@ -486,12 +486,14 @@ void Key_Process_Fun(void)
                   //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
                   {
                      Mode_Flag = Mode_Trans; 
+                     Mode_Trans = 0;
                      //Mode_Flag = STANDARD_MODE; 
                   }
-                if(Skin_Color_Type == 5)
-                {
-                  Mode_Flag = Mode_Trans; 
-                }
+               // if(Skin_Color_Type == 5)
+               // {
+               //   Mode_Flag = Mode_Trans; 
+               //   Mode_Trans = 0;
+               // }
               Mode_Change = 1;
               switch(Mode_Flag){
               case STANDARD_MODE:  
@@ -1125,7 +1127,7 @@ void Function_Processe(void)
                            }
                            if(Mode_Trans)
                           {  
-                            //Mode_Flag = Mode_Trans;
+                            Mode_Flag = Mode_Trans;
                             Mode_Trans=0;         
                           } 
 #if 0
@@ -1193,7 +1195,10 @@ void Function_Processe(void)
                              Mode_Trans =  Mode_Flag;
                              //Mode_Flag = OFF_FLASH_MODE; 
                            }else{
-                             
+                             if(Mode_Flag != 5)
+                             {
+                               Mode_Trans =  Mode_Flag;
+                             }
                              Mode_Flag = OFF_FLASH_MODE; 
                            }
                        /*    if(Skin_Color_Type_Count_5 >= 10)
