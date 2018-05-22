@@ -25,6 +25,7 @@
 #include "flash_times.h"
 #include "protocol.h"
 
+extern uint8_t Receive_Buff[15];
 uint8_t Skin_HV_Ready = 0;
 /* Global variable -----------------------------------------------------------*/
 uint8_t Key_Value_Error = 0;  /* Key read data error flag */
@@ -350,7 +351,7 @@ void Key_Process_Fun(void)
     }
     if(Lock_Flag == ON)  /* if lock on, only process unlock key */
     {
-      if(!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))
+      if((!(Key_Cont & KEY_UNLOCK) || !(Key_Cont & KEY_ADD) || !(Key_Cont & KEY_DEC))&&(!ERROR_Flag)&&(Power_Flag == ON))
       {
         LED_ON(LED_DEC_SW_PORT,LED_DEC_SW_PIN);
         LED_ON(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
@@ -390,7 +391,7 @@ void Key_Process_Fun(void)
     }else{  /* if lock OFF, process all key */
       switch(Key_Cont)
       {
-        case KEY_AUTO   :  if(Key_Trg == KEY_AUTO)  /* auto  key, first push*/ 
+      case KEY_AUTO   :    if(Key_Trg == KEY_AUTO)  /* auto  key, first push*/ 
                            { 
                              Key_count = 0;
                              Key_Push = KEY_AUTO;
@@ -414,7 +415,8 @@ void Key_Process_Fun(void)
                              {
                                BEEP_Cmd(DISABLE);//BEEP_OFF(BEEP_PORT,BEEP_PIN);
                              }                             
-                           } break;
+                           }                          
+                           break;
         case KEY_ADD    :  if(Key_Trg == KEY_ADD)  /* ADD key, first push*/ 
                            {
                              Key_count = 0;
@@ -424,7 +426,7 @@ void Key_Process_Fun(void)
                                BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
                              } */
                              //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN);
-                             //if(!(HV_Level_Dowm_3||HV_Level_Dowm_5))
+                             //if(((HV_Level < 5)&&((Mode_Flag == AUTO_MODE)||(Mode_Flag == AUTO_MULTI_MODE))) || (Mode_Flag != OFF_FLASH_MODE))
                                Key_Level_Up_Proc();
                              Beep_LEVEL_Proc();
                              LED_OFF(LED_ADD_SW_PORT,LED_ADD_SW_PIN);
@@ -486,6 +488,10 @@ void Key_Process_Fun(void)
                      Mode_Flag = Mode_Trans; 
                      //Mode_Flag = STANDARD_MODE; 
                   }
+                if(Skin_Color_Type == 5)
+                {
+                  Mode_Flag = Mode_Trans; 
+                }
               Mode_Change = 1;
               switch(Mode_Flag){
               case STANDARD_MODE:  
@@ -632,6 +638,7 @@ void Key_Power_On_Proc(void)
   Key_count ++;
   if(Key_count == 40)  /* 1s long push */
   {
+    UART2_Cmd(ENABLE);
     //LED_ON(LED_POWER_SW_PORT,LED_POWER_SW_PIN);      /* power LED ON*/
     //BEEP_Cmd(ENABLE);//BEEP_ON(BEEP_PORT,BEEP_PIN); /* beep on 0.2s */
     Beep_Power_On_Proc();
@@ -655,6 +662,9 @@ void Key_Power_On_Proc(void)
     Flash_ERROR = 0;
     Charge_TimeOut_Flag = 0;
     Charge_Overflow_error = 0;
+    
+    Receive_Buff[0] = Receive_Buff[1] = Receive_Buff[2] = Receive_Buff[3] = Receive_Buff[4] = Receive_Buff[5] = Receive_Buff[6] = Receive_Buff[7] = 0;
+      
     Delay_ms(50);
     Lamp_Type_Check();
     Flash_times_LED_Count = 0 ;
@@ -741,6 +751,9 @@ void Key_Power_Off_Proc(void)
       Beep_Power_OFF_Proc();
     }
     Delay_ms(200);
+    
+    UART2_Cmd(DISABLE);
+    
     BEEP_Cmd(DISABLE);//BEEP_OFF(BEEP_PORT,BEEP_PIN);
     SET_IO_LOW(BEEP_PORT,BEEP_PIN);
     Flash_Times_Level = 0;
@@ -801,7 +814,7 @@ void Error_Power_Off_Proc(void)
 void Key_Level_Up_Proc(void)
 {    
    Level_Change = 1;
-   if(First_Flash || (Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))
+   if((Mode_Flag == OFF_FLASH_MODE) || (Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))//First_Flash || 
     {
      if(HV_Level >= 5)
      {
@@ -908,6 +921,10 @@ void Key_Mode_Proc(void)
     //if((Mode_Trans != 0)&&(Mode_Flag == OFF_FLASH_MODE))
     {
        Mode_Flag = Mode_Trans;
+    }
+    if(Skin_Color_Type == 5)
+    {
+       Mode_Flag = Mode_Trans; 
     }
     switch(Mode_Flag){
     case STANDARD_MODE: Mode_Flag = STANDARD_MULTI_MODE;
@@ -1108,7 +1125,7 @@ void Function_Processe(void)
                            }
                            if(Mode_Trans)
                           {  
-                            Mode_Flag = Mode_Trans;
+                            //Mode_Flag = Mode_Trans;
                             Mode_Trans=0;         
                           } 
 #if 0
@@ -1159,13 +1176,26 @@ void Function_Processe(void)
 #endif
                            if(Skin_Color_Type_Count_5 < 2)
                            {
+                             if(Mode_Trans)
+                             {
+                               Mode_Flag = Mode_Trans;
+                               Mode_Trans = 0;
+                             }
+                             if(Mode_Flag == 0)
+                             { 
+                               Mode_Flag = 1;
+                               //Mode_Trans =  Mode_Flag;
+                             }
                              if(Mode_Flag==5)
                              {
-                               Mode_Flag = 1;
+                               Mode_Flag = Mode_Trans;
                              }
                              Mode_Trans =  Mode_Flag;
+                             //Mode_Flag = OFF_FLASH_MODE; 
+                           }else{
+                             
                              Mode_Flag = OFF_FLASH_MODE; 
-                           } 
+                           }
                        /*    if(Skin_Color_Type_Count_5 >= 10)
                           {
                            Skin_Color_Type_Count_5 = 10; 

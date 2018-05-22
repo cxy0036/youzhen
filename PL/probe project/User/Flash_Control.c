@@ -106,7 +106,7 @@ void Flash_Control(uint8_t plus_times)
 			{
 			  Multi_Flash_Times(plus_times,1,Touch_Key_Not_Release);
 		  }else{
-			  Multi_Flash_Times(plus_times,2*Flash_Level,Touch_Key_Not_Release);
+			  Multi_Flash_Times(plus_times,2*(Flash_Level-1),Touch_Key_Not_Release);
 			}
 		}else{
 			     switch(Flash_Level)
