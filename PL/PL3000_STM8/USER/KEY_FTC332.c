@@ -820,7 +820,7 @@ void Key_Level_Up_Proc(void)
    {
      Mode_Flag = Mode_Trans;
    }
-   if((Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))//First_Flash || (Mode_Flag == OFF_FLASH_MODE) || 
+   if(First_Flash ||(Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))//First_Flash || (Mode_Flag == OFF_FLASH_MODE) || 
     {
      if(HV_Level >= 5)
      {
