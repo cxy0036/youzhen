@@ -816,7 +816,11 @@ void Error_Power_Off_Proc(void)
 void Key_Level_Up_Proc(void)
 {    
    Level_Change = 1;
-   if((Mode_Flag == OFF_FLASH_MODE) || (Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))//First_Flash || 
+   if(Mode_Flag == OFF_FLASH_MODE)
+   {
+     Mode_Flag = Mode_Trans;
+   }
+   if((Mode_Flag == AUTO_MODE)|| (Mode_Flag == AUTO_MULTI_MODE))//First_Flash || (Mode_Flag == OFF_FLASH_MODE) || 
     {
      if(HV_Level >= 5)
      {
