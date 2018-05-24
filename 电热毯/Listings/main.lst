@@ -1,0 +1,285 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE User\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\User;.\Option File) DEBUG 
+                    -OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "main.h"
+   2          #include "SN8F5702.H"
+   3          #include "delay.h"
+   4          
+   5          
+   6          //extern uint8_t ;
+   7          uint32_t Level3_count = 1152000;
+   8          uint32_t Level3_off_count = 230400;
+   9          uint8_t Level = 0;
+  10          uint8_t Power = 0;
+  11          uint8_t LEVEL_UP = 0;
+  12          uint8_t POWER_UP = 0;
+  13          uint32_t Five_mins_time = 0;
+  14          uint32_t Six_hour_time = 27500000;//8h delay
+  15          uint8_t Five_mins_no = 0; 
+  16          uint16_t Level1_timeout_high = 3840;//4s
+  17          uint16_t Level1_timeout_low = 5660;//6s
+  18          uint16_t Level2_timeout_high = 6140;//6.5s
+  19          uint16_t Level2_timeout_low = 3360;//3.5s
+  20          uint16_t Level3_timeout_high = 7480;//8s
+  21          uint16_t Level3_timeout_low = 1920;//2s
+  22          
+  23          
+  24          #define POWER_PIN     P14 //P12 
+  25          #define LEVEL_PIN     P12 //P14 
+  26          #define LED1_PIN      P10 //P00 
+  27          #define LED2_PIN      P05 
+  28          #define LED3_PIN      P00 //P10 
+  29          
+  30          
+  31          void main(void)
+  32          {
+  33   1        Delay_Init();
+  34   1        P11  = 0;
+  35   1        P1M |=0X02;//P1.1OUTPUT
+  36   1        
+  37   1        P1M &= ~ 0x04;//P12INPUT SW3
+  38   1        P1UR |= 0x04;
+  39   1        
+  40   1        P1M &= ~ 0x10;//P14INPUT  SW2
+  41   1        P1UR |= 0x10;
+  42   1        
+  43   1        //P1UR &= ~ 0x01;  
+  44   1        //P0UR &= ~ 0x21; 
+  45   1      
+  46   1        P10 =0;
+  47   1        P00 =0;
+  48   1        P05 =0;
+  49   1        P1M |=0X01;//P1.0OUTPUT
+  50   1        P0M |=0X21;//P00,P05OUTPUT
+  51   1          
+  52   1        while(1)
+  53   1        {
+  54   2           //WDTR = 0x5A;//??
+C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 2   
+
+  55   2          if(Six_hour_time == 0)
+  56   2          {
+  57   3            Power =0;//power off
+  58   3            P00 = 0 ;//LED OFF
+  59   3            P05 = 0 ;
+  60   3            P10 = 0 ;
+  61   3            P11 = 0 ; 
+  62   3            Level = 0 ; 
+  63   3          }
+  64   2        //电源键按下
+  65   2          if(POWER_PIN == 1)//按键短按有效
+  66   2           {
+  67   3             POWER_UP = 1;
+  68   3           }
+  69   2          if((POWER_PIN == 0)&&(POWER_UP == 1))//SW3 
+  70   2          {
+  71   3             Delay_ms(2);
+  72   3             if((POWER_PIN == 0)&&(POWER_UP == 1))//SW3
+  73   3             { 
+  74   4               POWER_UP = 0;
+  75   4               if(Power == 0)
+  76   4               {
+  77   5                  Level = 1;
+  78   5                  P11  = 1;
+  79   5                  Six_hour_time = 27500000;
+  80   5                  Power =1;//power on 
+  81   5                  Five_mins_time =145500;
+  82   5                  Level1_timeout_high = 3840;//4s
+  83   5                  Level1_timeout_low = 5660;//6s
+  84   5                  Level2_timeout_high = 6140;//6.5s
+  85   5                  Level2_timeout_low = 3360;//3.5s
+  86   5                  Level3_timeout_high = 7480;//8s
+  87   5                  Level3_timeout_low = 1920;//2s
+  88   5                  Five_mins_no = 0;
+  89   5               }else{
+  90   5                 Power =0;//power off
+  91   5                 LED1_PIN = 0 ;//LED OFF
+  92   5                 LED2_PIN = 0 ;
+  93   5                 LED3_PIN = 0 ;
+  94   5                 P11 = 0 ;  
+  95   5                 Level = 0 ;   
+  96   5               }         
+  97   4             }
+  98   3            Delay_ms(100);
+  99   3          }
+ 100   2        //档位键按下
+ 101   2          if(Power == 1)    
+ 102   2          {
+ 103   3            Six_hour_time--;//6 hour no opetate ,power off
+ 104   3            if(LEVEL_PIN == 1)//短按有效
+ 105   3             {
+ 106   4               LEVEL_UP = 1;
+ 107   4             }
+ 108   3            if((LEVEL_PIN == 0)&&(LEVEL_UP == 1))//SW2 
+ 109   3             {
+ 110   4               Delay_ms(2);
+ 111   4               if((LEVEL_PIN == 0)&&(LEVEL_UP == 1))//SW2 
+ 112   4               {
+ 113   5                 Six_hour_time = 27500000;
+ 114   5                 LEVEL_UP = 0;
+ 115   5                 Level++;
+ 116   5               }
+C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 3   
+
+ 117   4               if(Level ==4)//加到三挡，返回1
+ 118   4               {
+ 119   5                 Level =1;
+ 120   5               }
+ 121   4               Delay_ms(100);
+ 122   4             }
+ 123   3             if(Five_mins_time != 0)
+ 124   3             {
+ 125   4               Five_mins_time--;//5 mins delay
+ 126   4               Delay_ms(2);
+ 127   4             }else{
+ 128   4                 Five_mins_no = 1;
+ 129   4                }
+ 130   3             switch(Level)
+ 131   3                   {
+ 132   4                    case 1: 
+ 133   4                            LED1_PIN = 1 ;//LED1
+ 134   4                            LED2_PIN = 0 ;
+ 135   4                            LED3_PIN = 0 ;  
+ 136   4                            break;
+ 137   4                    case 2: 
+ 138   4                            LED1_PIN = 0 ;//LED2
+ 139   4                            LED2_PIN = 1 ;
+ 140   4                            LED3_PIN = 0 ;
+ 141   4                            break;;
+ 142   4                    case 3: 
+ 143   4                            LED1_PIN = 0 ;//LED3
+ 144   4                            LED2_PIN = 0 ;
+ 145   4                            LED3_PIN = 1 ;
+ 146   4                            break;
+ 147   4                    default :
+ 148   4                            P00 = 0 ;//LED OFF
+ 149   4                            P05 = 0 ;
+ 150   4                            P10 = 0 ;
+ 151   4                            P11 = 0 ;   
+ 152   4                            break;  
+ 153   4                   }
+ 154   3                if(Five_mins_no == 1)
+ 155   3                {
+ 156   4                    switch(Level)
+ 157   4                   {
+ 158   5                    case 1: //on 4.5s ,off 5.5s
+ 159   5                            Level2_timeout_high = 6140;//6.5s
+ 160   5                            Level2_timeout_low = 3360;//3.5s
+ 161   5                            Level3_timeout_high = 7480;//8s
+ 162   5                            Level3_timeout_low = 1920;//2s     
+ 163   5                            if(Level1_timeout_high != 0)//on 4.5s
+ 164   5                            {
+ 165   6                              P11 = 1 ;
+ 166   6                              Level1_timeout_high--;
+ 167   6                              Delay_ms(1);
+ 168   6                            }
+ 169   5                            if((Level1_timeout_low != 0)&&(Level1_timeout_high == 0))//off 5.5s
+ 170   5                            {
+ 171   6                              P11 = 0;
+ 172   6                              Level1_timeout_low--;
+ 173   6                              Delay_ms(1);
+ 174   6                            }
+ 175   5                            if((Level1_timeout_high == 0)&&(Level1_timeout_low == 0))//next period
+ 176   5                            {
+ 177   6                              Level1_timeout_high = 3840;//4s
+ 178   6                              Level1_timeout_low = 5660;//6s
+C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 4   
+
+ 179   6                            }
+ 180   5                            break;
+ 181   5                    case 2: //on 7.2s ,off 2.8s
+ 182   5                            Level1_timeout_high = 3840;//4s
+ 183   5                            Level1_timeout_low = 5660;//6s
+ 184   5                            Level3_timeout_high = 7480;//8s
+ 185   5                            Level3_timeout_low = 1920;//2s
+ 186   5                            if(Level2_timeout_high != 0)
+ 187   5                            {
+ 188   6                              P11 = 1 ;
+ 189   6                              Level2_timeout_high--;
+ 190   6                              Delay_ms(1);
+ 191   6                            }
+ 192   5                            if((Level2_timeout_low != 0)&&(Level2_timeout_high == 0))
+ 193   5                            {
+ 194   6                              Level2_timeout_low--;
+ 195   6                              P11 = 0;
+ 196   6                              Delay_ms(1);
+ 197   6                            }
+ 198   5                            if((Level2_timeout_high == 0)&&(Level2_timeout_low == 0))
+ 199   5                            {
+ 200   6                              Level2_timeout_high = 6240;//6.5s
+ 201   6                              Level2_timeout_low = 3360;//3.5s
+ 202   6                            }
+ 203   5                            break;
+ 204   5                    case 3: //on 9s ,off 1s
+ 205   5                            Level1_timeout_high = 3840;//4s
+ 206   5                            Level1_timeout_low = 5660;//6s
+ 207   5                            Level2_timeout_high = 6140;//6.5s
+ 208   5                            Level2_timeout_low = 3360;//3.5s
+ 209   5                            if(Level3_count == 0)//20 mins
+ 210   5                            {
+ 211   6                              P11 = 0;
+ 212   6                              Level3_off_count--;
+ 213   6                              Delay_ms(1);
+ 214   6                              if(Level3_off_count == 0)//4 mins
+ 215   6                              {
+ 216   7                                Level3_count = 1152000;
+ 217   7                                Level3_off_count = 230400;
+ 218   7                              }
+ 219   6                              break;
+ 220   6                            }
+ 221   5                            Level3_count--;
+ 222   5                            if(Level3_timeout_high != 0)
+ 223   5                            {
+ 224   6                              P11 = 1 ;
+ 225   6                              Level3_timeout_high--;
+ 226   6                              Delay_ms(1);
+ 227   6                            }
+ 228   5                            if((Level3_timeout_low != 0)&&(Level3_timeout_high == 0))
+ 229   5                            {
+ 230   6                              Level3_timeout_low--;
+ 231   6                              P11 = 0;
+ 232   6                              Delay_ms(1);
+ 233   6                            }
+ 234   5                            if((Level3_timeout_high == 0)&&(Level3_timeout_low == 0))
+ 235   5                            {
+ 236   6                              Level3_timeout_high = 7480;
+ 237   6                              Level3_timeout_low = 1920;
+ 238   6                            }
+ 239   5                            break;
+ 240   5                    default :
+C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 5   
+
+ 241   5                            Level1_timeout_high = 3840;//4s
+ 242   5                            Level1_timeout_low = 5660;//6s
+ 243   5                            Level2_timeout_high = 6140;//6.5s
+ 244   5                            Level2_timeout_low = 3360;//3.5s
+ 245   5                            Level3_timeout_high = 7480;//8s
+ 246   5                            Level3_timeout_low = 1920;//2s
+ 247   5                            break;  
+ 248   5                   }
+ 249   4                }
+ 250   3         
+ 251   3           }
+ 252   2         }
+ 253   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    897    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     33    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
