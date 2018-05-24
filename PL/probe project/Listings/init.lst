@@ -1,0 +1,122 @@
+C51 COMPILER V9.56.0.0   INIT                                                              05/22/2018 18:06:46 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN .\Objects\init.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE User\init.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\User;.\Option File) DEBUG 
+                    -OBJECTEXTEND PRINT(.\Listings\init.lst) TABS(2) OBJECT(.\Objects\init.obj)
+
+line level    source
+
+   1          #include "init.h"
+   2          #include "Error_Check.h"
+   3          #include "UART.h"
+   4          #include "EEPROM.h"
+   5          #include "delay.h"
+   6          #include "ADC.h"
+   7          #include "Flash_Control.h"
+   8          #include "key.h"
+   9          //#include ""
+  10          
+  11          extern volatile uint32_t Flash_Times;
+  12          //extern volatile uint32_t Flash_Times1;
+  13          //extern volatile uint32_t Flash_Times2;
+  14          //extern volatile uint32_t Flash_Times3;
+  15          
+  16          
+  17          extern uint8_t Lamp_Type;
+  18          extern uint8_t Flash_Times_Level;
+  19          extern uint8_t Low_Lamp;
+  20          extern uint8_t Mode_Type;
+  21          extern uint8_t EEPROM_ERROR_Flag;
+  22          //uint8_t Low_Lamp_count=0;
+  23          void Init_Fun(void)
+  24          {
+  25   1        //uint8_t read_count= 0;
+  26   1        //uint8_t temp[4];
+  27   1        UART_SEND; 
+  28   1        Key_IO_Init();  
+  29   1        Flash_IO_Init();
+  30   1        EEPROM_IO();
+  31   1        Delay_Init();
+  32   1        Uart_Init();
+  33   1        ADC_Init_Fun();   
+  34   1        Cartridge_Type_Check();                     
+  35   1        UART_RECEIVE;
+  36   1        Mode_Type = Standard_Mode;
+  37   1        Full_Charge_LED_On; 
+  38   1        Delay_ms(1000);
+  39   1        Full_Charge_LED_Off;
+  40   1        //Write_Num_TO_EEPROM(0);
+  41   1        //EEPROM_Read_Data(temp,0x0000,4);
+  42   1        Flash_Times = Read_Num_From_EEPROM();  
+  43   1      
+  44   1        if(!EEPROM_ERROR_Flag)
+  45   1        { 
+  46   2            if(Flash_Times > Flash_Times_Level9)  //>99999
+  47   2            {             
+  48   3                Low_Lamp = 1;
+  49   3                Flash_Times_Level = 9;
+  50   3            }else{
+  51   3              Low_Lamp = 0;
+  52   3              if(Flash_Times > Flash_Times_Level8) //>899999 : 900000 ~ 999999
+  53   3              {
+  54   4                Flash_Times_Level = Flash_Times_Level_1;
+C51 COMPILER V9.56.0.0   INIT                                                              05/22/2018 18:06:46 PAGE 2   
+
+  55   4              }else{
+  56   4                if(Flash_Times > Flash_Times_Level7) // >799999 : 800000 ~ 899999
+  57   4                {
+  58   5                  Flash_Times_Level = Flash_Times_Level_2;
+  59   5                }else{
+  60   5                  if(Flash_Times > Flash_Times_Level6) //>699999 : 700000 ~ 799999
+  61   5                  {
+  62   6                    Flash_Times_Level = Flash_Times_Level_3;
+  63   6                  }else{
+  64   6                    if(Flash_Times >= Flash_Times_Level5) //>599999: 600000 ~ 699999
+  65   6                    {
+  66   7                      Flash_Times_Level = Flash_Times_Level_4;
+  67   7                    }else{
+  68   7                      if(Flash_Times >= Flash_Times_Level4) //>499999 : 500000 ~ 599999
+  69   7                      {
+  70   8                        Flash_Times_Level = Flash_Times_Level_5;
+  71   8                      }else{
+  72   8                        if(Flash_Times >= Flash_Times_Level3) //>399999 : 400000 ~ 499999
+  73   8                        {
+  74   9                          Flash_Times_Level = Flash_Times_Level_6;
+  75   9                        }else{
+  76   9                          if(Flash_Times >= Flash_Times_Level2) //>299999 : 300000 ~ 399999
+  77   9                          {
+  78  10                            Flash_Times_Level = Flash_Times_Level_7;
+  79  10                          }else{
+  80  10                            if(Flash_Times > Flash_Times_Level1) //>199999 : 200000 ~ 299999
+  81  10                            {
+  82  11                              Flash_Times_Level = Flash_Times_Level_8;
+  83  11                            }else{                               //>=0 : 0~199999
+  84  11                              Flash_Times_Level = Flash_Times_Level_9;
+  85  11                            }                 
+  86  10                          }
+  87   9                        }
+  88   8                      }
+  89   7                    }
+  90   6                  }
+  91   5                }
+  92   4              }
+  93   3            } 
+  94   2          
+  95   2         }
+  96   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    293    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

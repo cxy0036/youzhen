@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\OPTIONS_SN8F5702.obj",
+".\Objects\main.obj",
+".\Objects\delay.obj" 
+TO ".\Objects\probe_project" 
+PRINT(".\Listings\probe_project.m51") RAMSIZE(256) 

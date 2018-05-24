@@ -1,0 +1,622 @@
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE TIME
+OBJECT MODULE PLACED IN .\Output\time.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Code\time.c OPTIMIZE(4,SPEED) BROWSE INCDIR(.\Include) DEFINE(FOSC_16000
+                    -0) DEBUG OBJECTEXTEND PRINT(.\LST\time.lst) TABS(2) OBJECT(.\Output\time.obj)
+
+line level    source
+
+   1          #include <stdio.h>
+   2          #include "N76E003.h"
+   3          #include "Common.h"
+   4          //#include "Delay.h"
+   5          #include "SFR_Macro.h"
+   6          #include "Function_Define.h"
+   7          #include "time.h"
+   8          #include "pwm.h"
+   9          #include "adc.h"
+  10          volatile uint8_t  time0l;
+  11          volatile uint8_t  time0h;
+  12          volatile uint8_t  time1l;
+  13          volatile uint8_t  time1h;
+  14          volatile uint8_t  time11h;
+  15          volatile uint8_t  time11l;
+  16          volatile uint8_t pow_count;
+  17          volatile uint8_t mode_count;
+  18          volatile uint8_t rise_shift;
+  19          volatile uint8_t mode_sel;
+  20          volatile uint8_t buz_flag;
+  21          volatile uint16_t buz_count;
+  22          volatile uint8_t flash_flag;
+  23          volatile uint8_t key_flag;
+  24          volatile uint16_t time2_count;
+  25          volatile uint16_t wait_count;
+  26          
+  27           uint8_t moto_flag;
+  28           uint8_t new_flag;
+  29           uint8_t wait_flag;
+  30           uint8_t on_flag;
+  31           uint8_t nokey_count;
+  32           uint8_t start_sound;
+  33           uint8_t close_sound;
+  34           uint8_t shift_sound;
+  35           uint8_t mode_sound;
+  36           uint8_t power_keyup_flag=1;
+  37           uint8_t led_keyup_flag=1;
+  38           uint8_t buzfirsh_flag=1;
+  39          
+  40          /*********************************************************************************************************
+             -***
+  41          *用于主事件执行,升压使PWM产生不同占空比的PWM波
+  42          **********************************************************************************************************
+             -**/
+  43          void Timer0_ISR (void) interrupt 1          //interrupt address is 0x000B
+  44          {
+  45   1          clr_TR0;
+  46   1          TH0 = time0h;
+  47   1          TL0 = time0l;  
+  48   1          if(POW_RF==1)
+  49   1          {
+  50   2            power_keyup_flag=1;
+  51   2          } 
+  52   1          if(MODE==1)
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 2   
+
+  53   1          {
+  54   2            led_keyup_flag=1;
+  55   2          } 
+  56   1          set_TR1;
+  57   1          if(POW_RF==0)
+  58   1          {    
+  59   2             pow_count++;
+  60   2             if(pow_count==2)
+  61   2             {     
+  62   3                 pow_count=0;
+  63   3                 time2_count=0;
+  64   3                 key_flag=1;
+  65   3                 wait_count=0;
+  66   3                if(power_keyup_flag==1)
+  67   3                 {
+  68   4                   rise_shift++;
+  69   4                   power_keyup_flag=0;
+  70   4                   buzfirsh_flag=1;            
+  71   4                 }
+  72   3                 
+  73   3               if(rise_shift==1)//rise voltage1 start 
+  74   3               {   
+  75   4                 set_TR2;
+  76   4                 on_flag=1;
+  77   4                 buz_flag=1;
+  78   4                 //FDC633_CTL=1;
+  79   4                 //AIC3415_CTL=1;
+  80   4                 voltage1();
+  81   4                // P04=0;  
+  82   4                 LED1=0;
+  83   4                 flash_flag=0;
+  84   4                 mode_sel=1;
+  85   4                 LED2=LED3=LED4=1;
+  86   4                 RED=YELLOW=BLUE=1;
+  87   4                 PWM1_P14_OUTPUT_ENABLE; //MOS;
+  88   4                 pwm_start();
+  89   4                 //while(POW_RF==0); 
+  90   4               }
+  91   3               if(rise_shift==2)//rise voltage2
+  92   3               {     // wait_count=0;
+  93   4                 on_flag=1;
+  94   4                 buz_flag=2;
+  95   4                 voltage2();
+  96   4                 LED2=0;
+  97   4                 LED1=LED3=LED4=1;
+  98   4                 pwm_start(); 
+  99   4                 //while(POW_RF==0);
+ 100   4              
+ 101   4               }
+ 102   3               if(rise_shift==3)//rise voltage3
+ 103   3               {
+ 104   4                 wait_count=0;
+ 105   4                 on_flag=1;
+ 106   4                 buz_flag=2;
+ 107   4                 voltage3();
+ 108   4                 LED3=0;
+ 109   4                 LED1=LED2=LED4=1;
+ 110   4                 pwm_start();
+ 111   4              //while(POW_RF==0);
+ 112   4               }
+ 113   3               if(rise_shift==4)//rise voltage4
+ 114   3               {
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 3   
+
+ 115   4                  // wait_count=0;
+ 116   4                 on_flag=1;
+ 117   4                 buz_flag=2;
+ 118   4                 voltage4();
+ 119   4                 LED4=0;
+ 120   4                 LED1=LED2=LED3=1;
+ 121   4                 pwm_start();  
+ 122   4                //while(POW_RF==0);
+ 123   4               }
+ 124   3               if(rise_shift==5)//
+ 125   3               {
+ 126   4                 on_flag=0;
+ 127   4                 buz_flag=3;
+ 128   4                 LED1=1;
+ 129   4                 LED2=1;
+ 130   4                 LED3=1;
+ 131   4                 LED4=1;  
+ 132   4                //  PCON|=0X02;      
+ 133   4                 RED=YELLOW=BLUE=0;
+ 134   4                 pwm_stop();
+ 135   4                 rise_shift=0; 
+ 136   4                 PWM1_P14_OUTPUT_DISABLE;
+ 137   4                 P14_PushPull_Mode;
+ 138   4                 P14=0;
+ 139   4                 //flash_flag=0;//no flash
+ 140   4                  moto_stop();
+ 141   4                 //while(POW_RF==0);
+ 142   4               }
+ 143   3                 
+ 144   3            }  
+ 145   2          }
+ 146   1          if(MODE==0)
+ 147   1          {
+ 148   2             mode_count++;
+ 149   2             if(mode_count==2)
+ 150   2             {     
+ 151   3                mode_count=0;
+ 152   3                time2_count=0;
+ 153   3               if(on_flag)
+ 154   3               {
+ 155   4                { 
+ 156   5                  key_flag=2;
+ 157   5                  if(led_keyup_flag==1)
+ 158   5                 {
+ 159   6                   mode_sel++;
+ 160   6                   led_keyup_flag=0;
+ 161   6                   buzfirsh_flag=1;            
+ 162   6                 }
+ 163   5                  wait_count=0;
+ 164   5                  if(mode_sel==1)
+ 165   5                  { 
+ 166   6                    buz_flag=4;
+ 167   6                    RED=YELLOW=BLUE=1;
+ 168   6                    flash_flag=0;//no flash
+ 169   6                    moto_flag=0;
+ 170   6                    moto_stop();
+ 171   6                    //while(MODE==0);
+ 172   6                  }
+ 173   5                if(mode_sel==2)
+ 174   5                {
+ 175   6                  buz_flag=4;
+ 176   6                  flash_flag=1;   //second shift:three color led is flash,and flash_flag is 1     enter time2 isr
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 4   
+
+ 177   6                  moto_flag=0;
+ 178   6                  set_TR2;
+ 179   6                  moto_stop();
+ 180   6                    //while(MODE==0);
+ 181   6                }
+ 182   5                if(mode_sel==3)
+ 183   5                {
+ 184   6                  buz_flag=4;
+ 185   6                  flash_flag=0;//no flash，red led is on
+ 186   6                  moto_flag=0;
+ 187   6                  RED=1;
+ 188   6                  YELLOW=0;
+ 189   6                  BLUE=0;
+ 190   6                  moto_stop();
+ 191   6                    //while(MODE==0);
+ 192   6                  
+ 193   6                }
+ 194   5                if(mode_sel==4)
+ 195   5                {
+ 196   6                  buz_flag=4;
+ 197   6                  flash_flag=0;//no flash  yellow led is on
+ 198   6                  moto_flag=0;
+ 199   6                  YELLOW=1;
+ 200   6                  RED=0;
+ 201   6                  BLUE=0;
+ 202   6                  moto_stop();
+ 203   6                  
+ 204   6                  //while(MODE==0);
+ 205   6                }
+ 206   5                if(mode_sel==5)
+ 207   5                {
+ 208   6                  buz_flag=4;
+ 209   6                  flash_flag=0;//no flash blue led is on
+ 210   6                  moto_flag=0;
+ 211   6                  BLUE=1;
+ 212   6                  RED=0;
+ 213   6                  YELLOW=0;
+ 214   6                  moto_stop();
+ 215   6                  
+ 216   6                  //while(MODE==0);
+ 217   6                }
+ 218   5                if(mode_sel==6)//three color led is flash,and flash_flag is 1,and moto is on
+ 219   5                {
+ 220   6                  set_TR2;
+ 221   6                  buz_flag=4;
+ 222   6                  flash_flag=1;//flash 
+ 223   6                  moto_run();
+ 224   6                  BLUE=0;
+ 225   6                  RED=0;
+ 226   6                  YELLOW=0;
+ 227   6                    //while(MODE==0);
+ 228   6                
+ 229   6                }
+ 230   5                if(mode_sel==7)
+ 231   5                {
+ 232   6                  mode_sel=0;
+ 233   6                  buz_flag=4;
+ 234   6                  flash_flag=0;//no flash
+ 235   6                  moto_flag=0;
+ 236   6                  RED=YELLOW=BLUE=0;
+ 237   6                  moto_stop();
+ 238   6                  //while(MODE==0);
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 5   
+
+ 239   6                  
+ 240   6                }
+ 241   5               }
+ 242   4              }  
+ 243   3             }
+ 244   2          } 
+ 245   1          set_TR0;
+ 246   1          if(key_flag==0) //if no key operattion,
+ 247   1          {              
+ 248   2            clr_TR2;
+ 249   2          }
+ 250   1          else 
+ 251   1            { set_TR2;  }
+ 252   1      }
+ 253          /*********************************************************************************************************
+             -***
+ 254          * OUT BUZZER SOUND
+ 255          **********************************************************************************************************
+             -**/
+ 256          void Timer1_ISR (void) interrupt 3          //interrupt address is 0x001B
+ 257          {
+ 258   1        if(buzfirsh_flag==0)
+ 259   1        {
+ 260   2          return;
+ 261   2        }
+ 262   1        clr_TR1;
+ 263   1        if(new_flag==0)
+ 264   1         { 
+ 265   2           TL1=time11l;
+ 266   2           TH1=time11h;
+ 267   2         }
+ 268   1      
+ 269   1        //------------------------------------
+ 270   1       if(buz_flag==1)  //start system ,and continue sound
+ 271   1       {     
+ 272   2         new_flag=1;   //     
+ 273   2         TH1 = time11h;
+ 274   2         TL1 = time11l; 
+ 275   2         buz_count++;
+ 276   2         
+ 277   2         if(buz_count<2560)//2569
+ 278   2         {
+ 279   3           clr_TR0;
+ 280   3         }else{
+ 281   3           set_TR0;
+ 282   3         }
+ 283   2         
+ 284   2         if((buz_count<500))//&&(buz_count>666))
+ 285   2         {
+ 286   3           time11h = (65536-MI)/256;
+ 287   3           time11l = (65536-MI)%256;
+ 288   3           TL1=time11l;
+ 289   3           TH1=time11h;
+ 290   3           BUZ=~BUZ;
+ 291   3         }
+ 292   2         if((buz_count<980)&&(buz_count>500))
+ 293   2         {
+ 294   3           time11h = (65536-FA)/256;
+ 295   3           time11l = (65536-FA)%256;
+ 296   3           BUZ=~BUZ;
+ 297   3         }
+ 298   2         if((buz_count<1449)&&(buz_count>979))
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 6   
+
+ 299   2         
+ 300   2         {
+ 301   3           time11h = (65536-SO)/256;
+ 302   3           time11l = (65536-SO)%256;
+ 303   3           BUZ=~BUZ;
+ 304   3         }
+ 305   2        if((buz_count<1978)&&(buz_count>1448))
+ 306   2         {
+ 307   3           time11h = (65536-LA)/256;
+ 308   3           time11l = (65536-LA)%256;
+ 309   3           BUZ=~BUZ; 
+ 310   3         }
+ 311   2         if((buz_count<2569)&&(buz_count>1977))
+ 312   2         {
+ 313   3           time11h = (65536-SI)/256;
+ 314   3           time11l = (65536-SI)%256;
+ 315   3           BUZ=~BUZ;
+ 316   3         }
+ 317   2          if(buz_count>2569)
+ 318   2          {
+ 319   3            buz_flag=0;BUZ=0;buz_count=0;
+ 320   3            start_sound=1;
+ 321   3            buzfirsh_flag=0;
+ 322   3          }  
+ 323   2        
+ 324   2       }
+ 325   1       if(buz_flag==2)   //rise voltage,second to four shift sound is setting
+ 326   1       {
+ 327   2            new_flag=1;
+ 328   2         TH1 = time11h;
+ 329   2         TL1 = time11l; 
+ 330   2         buz_count++;
+ 331   2         if((buz_count<529))
+ 332   2         {
+ 333   3           time11h = (65536-LA)/256;
+ 334   3           time11l = (65536-LA)%256;
+ 335   3           BUZ=~BUZ;   
+ 336   3         }
+ 337   2           if(buz_count>529)
+ 338   2          {buz_flag=0;BUZ=0;buz_count=0;
+ 339   3            buzfirsh_flag=0;
+ 340   3          } //After 
+ 341   2        
+ 342   2       }
+ 343   1       if(buz_flag==3)    //close and fifth shift sound is setting
+ 344   1       {  
+ 345   2         new_flag=1;
+ 346   2         TH1 = time11h;
+ 347   2         TL1 = time11l; 
+ 348   2         buz_count++;
+ 349   2         
+ 350   2         if(buz_count<2392)//2401
+ 351   2         {
+ 352   3           clr_TR0;
+ 353   3         }else{
+ 354   3           set_TR0;
+ 355   3         }
+ 356   2         
+ 357   2         if(buz_count<591)
+ 358   2         {
+ 359   3           time11h = (65536-SI)/256;
+ 360   3           time11l = (65536-SI)%256;
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 7   
+
+ 361   3           BUZ=~BUZ;
+ 362   3         }
+ 363   2         if((buz_count<1120)&&(buz_count>591))
+ 364   2         {
+ 365   3           time11h = (65536-LA)/256;
+ 366   3               time11l = (65536-LA)%256;
+ 367   3           BUZ=~BUZ;
+ 368   3         }
+ 369   2         if((buz_count<1589)&&(buz_count>1120))
+ 370   2         {
+ 371   3           time11h = (65536-SO)/256;
+ 372   3               time11l = (65536-SO)%256;
+ 373   3           BUZ=~BUZ;
+ 374   3         }
+ 375   2         if((buz_count<2007)&&(buz_count>1589))
+ 376   2         {
+ 377   3           time11h = (65536-FA)/256;
+ 378   3           time11l = (65536-FA)%256;
+ 379   3           BUZ=~BUZ;
+ 380   3         }
+ 381   2         if((buz_count<2402)&&(buz_count>2007))
+ 382   2         {
+ 383   3           time11h = (65536-MI)/256;
+ 384   3           time11l = (65536-MI)%256;
+ 385   3           BUZ=~BUZ; 
+ 386   3         }
+ 387   2      
+ 388   2          if(buz_count>2401)
+ 389   2          {
+ 390   3      
+ 391   3            buzfirsh_flag=0;
+ 392   3            buz_flag=0;BUZ=0;buz_count=0;   //close system
+ 393   3            clr_TR0;
+ 394   3            clr_TR1;
+ 395   3            clr_TR2;
+ 396   3            clr_TR3;
+ 397   3            pwm_stop();
+ 398   3            PWM1_P14_OUTPUT_DISABLE;
+ 399   3            P14_PushPull_Mode;
+ 400   3            P14=0;
+ 401   3            P04=0;
+ 402   3            FDC633_CTL=0;
+ 403   3            AIC3415_CTL=0;
+ 404   3            key_flag=0;
+ 405   3            //clr_TR0;
+ 406   3          } //After 
+ 407   2         
+ 408   2       }
+ 409   1        
+ 410   1       if(buz_flag==4)    //sound of color shift is setting
+ 411   1       {
+ 412   2             TH1 = time11h;
+ 413   2             TL1 = time11l; 
+ 414   2             new_flag=1;
+ 415   2             buz_count++;
+ 416   2          if((buz_count<469))
+ 417   2         {
+ 418   3           time11h = (65536-SO1)/256;
+ 419   3           time11l = (65536-SO1)%256;
+ 420   3           BUZ=~BUZ;
+ 421   3           
+ 422   3         }
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 8   
+
+ 423   2                if(buz_count>469)
+ 424   2               {
+ 425   3                 buzfirsh_flag=0;
+ 426   3                 buz_flag=0;BUZ=0;buz_count=0;
+ 427   3                
+ 428   3                }   
+ 429   2       }  
+ 430   1       if(buz_flag==5)  //no operation sound is setting,buzzer sound
+ 431   1       {  
+ 432   2            
+ 433   2             TH1 = time11h;
+ 434   2             TL1 = time11l; 
+ 435   2             new_flag=1;
+ 436   2        if(wait_flag==0)
+ 437   2         {
+ 438   3            buz_count++;
+ 439   3            if((buz_count<418))//591
+ 440   3             {
+ 441   4               time11h = (65536-SI)/256;
+ 442   4               time11l = (65536-SI)%256;
+ 443   4               BUZ=~BUZ;
+ 444   4                 if(on_flag)
+ 445   4                 set_TR2;
+ 446   4                 else
+ 447   4                 clr_TR2;
+ 448   4               
+ 449   4             }
+ 450   3             else  {buz_flag=0;wait_flag=1; buz_count=0;BUZ=0;} //After 
+ 451   3          }
+ 452   2       }  
+ 453   1        //buzfirsh_flag=0;
+ 454   1        
+ 455   1        set_TR1;
+ 456   1        if(buz_flag==0)
+ 457   1           new_flag=0;
+ 458   1      }
+ 459          /*********************************************
+ 460          *函数名称：void Timer2_ISR (void) interrupt 5 
+ 461          *功能描述：用于蜂鸣器发声
+ 462          **********************************************/
+ 463          void Timer2_ISR (void) interrupt 5    
+ 464          {
+ 465   1         clr_TF2;
+ 466   1         time2_count++;
+ 467   1         wait_count++;
+ 468   1         if(flash_flag==1)  //led flash
+ 469   1          { 
+ 470   2           BLUE=~BLUE;YELLOW=~YELLOW;RED=~RED;
+ 471   2          } 
+ 472   1         if(wait_count==100)  //waitting time is 10s
+ 473   1         {
+ 474   2            buzfirsh_flag=1;
+ 475   2            wait_count=0;
+ 476   2            buz_flag=5;       //10s BUZ A TIME
+ 477   2            BUZ=0;
+ 478   2            set_TR3;      //检测电池电压
+ 479   2            wait_flag=0;
+ 480   2         }
+ 481   1         
+ 482   1         if(time2_count>6000)  //ten minutes  auto close system
+ 483   1         {    
+ 484   2            buzfirsh_flag=1;
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 9   
+
+ 485   2            on_flag=0;
+ 486   2            key_flag=0;
+ 487   2            buz_flag=3;
+ 488   2            time2_count=0;
+ 489   2            rise_shift=0;
+ 490   2            mode_count=0;
+ 491   2            clr_TR2;
+ 492   2            clr_TR3;
+ 493   2            
+ 494   2           // AIC3415_CTL=0;
+ 495   2            LED1=LED2=LED3=LED4=1;
+ 496   2            RED=YELLOW=BLUE=0;
+ 497   2            pwm_stop();
+ 498   2            PWM1_P14_OUTPUT_DISABLE;
+ 499   2            P14_PushPull_Mode;
+ 500   2            P14=0;
+ 501   2            P04=0;
+ 502   2         }
+ 503   1         
+ 504   1      }
+ 505          
+ 506          void Timer3_ISR (void) interrupt 16
+ 507          {
+ 508   1        uint16_t adresult[16];
+ 509   1        uint8_t cn;
+ 510   1        uint16_t ad_value;
+ 511   1        clr_TF3;
+ 512   1        ad_value=0;
+ 513   1          
+ 514   1        for(cn=0;cn<8;cn++)
+ 515   1         {
+ 516   2           //adresult[cn]=Bat_Measure();
+ 517   2           //ad_value=ad_value+adresult[cn];
+ 518   2         }
+ 519   1          //ad_value=ad_value/8;
+ 520   1          if(ad_value<1918)
+ 521   1          {
+ 522   2            //buz_flag=3;
+ 523   2            //on_flag=0;
+ 524   2            //key_flag=0;
+ 525   2            //rise_shift=0;
+ 526   2            //time2_count=0;
+ 527   2            //clr_TR2;
+ 528   2            //LED1=LED2=LED3=LED4=1;
+ 529   2            //RED=YELLOW=BLUE=0;
+ 530   2            //pwm_stop(); 
+ 531   2          }
+ 532   1          
+ 533   1         clr_TR3;
+ 534   1         ADCCON1|=SET_BIT0;
+ 535   1      }
+*** WARNING C280 IN LINE 508 OF Code\time.c: 'adresult': unreferenced local variable
+ 536          
+ 537          void Time_Init(void)
+ 538          {
+ 539   1         
+ 540   1           TIMER0_MODE1_ENABLE;
+ 541   1           TIMER1_MODE1_ENABLE;
+ 542   1           TIMER2_Auto_Reload_Delay_Mode;
+ 543   1            
+ 544   1           TIMER2_DIV_32;
+ 545   1           TIMER3_DIV_8;
+C51 COMPILER V9.56.0.0   TIME                                                              05/15/2018 18:19:13 PAGE 10  
+
+ 546   1           time0h = (65536-TMR0_INIT)/256;
+ 547   1           time0l = (65536-TMR0_INIT)%256;    
+ 548   1           time1h = (65536-TMR1_INIT)/256;
+ 549   1           time1l = (65536-TMR1_INIT)%256;
+ 550   1           time11h = time1h;
+ 551   1           time11l = time1l;
+ 552   1           RCMP2H=(65536-TMR2_INIT)/256;
+ 553   1           RCMP2L=(65536-TMR2_INIT)%256;//200ms,f=fsys/32
+ 554   1           RH3=(65536-TMR3_INIT)/256;
+ 555   1           RL3=(65536-TMR3_INIT)%256;
+ 556   1        
+ 557   1           TL0=time0l;
+ 558   1           TH0=time0h;
+ 559   1           TL1=time1l;
+ 560   1           TH1=time1h;
+ 561   1          
+ 562   1             clr_T0M;   //T0clk=Fsys
+ 563   1             clr_T1M;   //T1clk=Fsys
+ 564   1             set_ET0;                                    //enable Timer0 interrupt
+ 565   1             set_ET1;  
+ 566   1             set_ET2;                                  //enable Timer2 interrupt
+ 567   1           set_ET3;
+ 568   1                                                //enable interrupts
+ 569   1           set_EA; 
+ 570   1             set_TR0;                                    //Timer0 run
+ 571   1             set_TR1;   
+ 572   1             clr_TR2; 
+ 573   1             clr_TR3; 
+ 574   1               
+ 575   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1685    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     31      34
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
