@@ -4,8 +4,8 @@
 
 
 //extern uint8_t ;
-uint32_t Level3_count = 1152000;
-uint32_t Level3_off_count = 230400;
+uint32_t Level3_count = 1728000;//30min    1152000;
+uint32_t Level3_off_count = 172800;//3min  230400;
 uint8_t Level = 0;
 uint8_t Power = 0;
 uint8_t LEVEL_UP = 0;
@@ -14,11 +14,11 @@ uint32_t Five_mins_time = 0;
 uint32_t Six_hour_time = 27500000;//8h delay
 uint8_t Five_mins_no = 0; 
 uint16_t Level1_timeout_high = 3840;//4s
-uint16_t Level1_timeout_low = 5660;//6s
-uint16_t Level2_timeout_high = 6140;//6.5s
-uint16_t Level2_timeout_low = 3360;//3.5s
-uint16_t Level3_timeout_high = 7480;//8s
-uint16_t Level3_timeout_low = 1920;//2s
+uint16_t Level1_timeout_low = 9600;//10s        5660;//6s
+uint16_t Level2_timeout_high = 3840;//4s       6140;//6.5s
+uint16_t Level2_timeout_low = 7680;//8s        3360;//3.5s
+uint16_t Level3_timeout_high = 3840;//4s       7480;//8s
+uint16_t Level3_timeout_low = 5760;//6s        1920;//2s
 
 
 #define POWER_PIN			P14 //P12 
@@ -80,11 +80,11 @@ void main(void)
             Power =1;//power on 
 					  Five_mins_time =145500;
 				    Level1_timeout_high = 3840;//4s
-						Level1_timeout_low = 5660;//6s
-						Level2_timeout_high = 6140;//6.5s
-						Level2_timeout_low = 3360;//3.5s
-						Level3_timeout_high = 7480;//8s
-						Level3_timeout_low = 1920;//2s
+						Level1_timeout_low = 9600;//10s       5660;//6s
+						Level2_timeout_high = 3840;//4s       6140;//6.5s
+						Level2_timeout_low = 7680;//8s        3360;//3.5s
+						Level3_timeout_high = 3840;//4s       7480;//8s
+						Level3_timeout_low = 5760;//6s        1920;//2s
 					  Five_mins_no = 0;
 				 }else{
 				   Power =0;//power off
@@ -156,10 +156,10 @@ void main(void)
 							switch(Level)
 						 {
 							case 1: //on 4.5s ,off 5.5s
-											Level2_timeout_high = 6140;//6.5s
-											Level2_timeout_low = 3360;//3.5s
-											Level3_timeout_high = 7480;//8s
-											Level3_timeout_low = 1920;//2s     
+											Level2_timeout_high = 3840;//4s   6140;//6.5s
+											Level2_timeout_low = 7680;//8s    3360;//3.5s
+											Level3_timeout_high = 3840;//4s   7480;//8s
+											Level3_timeout_low =  5760;//6s   1920;//2s     
 							        if(Level1_timeout_high != 0)//on 4.5s
 											{
 												P11 = 1 ;
@@ -175,14 +175,14 @@ void main(void)
 											if((Level1_timeout_high == 0)&&(Level1_timeout_low == 0))//next period
 											{
 												Level1_timeout_high = 3840;//4s
-												Level1_timeout_low = 5660;//6s
+												Level1_timeout_low = 9600;//10s    5660;//6s
 											}
 											break;
 							case 2: //on 7.2s ,off 2.8s
 								      Level1_timeout_high = 3840;//4s
-											Level1_timeout_low = 5660;//6s
-											Level3_timeout_high = 7480;//8s
-											Level3_timeout_low = 1920;//2s
+											Level1_timeout_low = 9600;//10s       5660;//6s
+											Level3_timeout_high = 3840;//4s       7480;//8s
+											Level3_timeout_low = 5760;//6s        1920;//2s
 											if(Level2_timeout_high != 0)
 											{
 												P11 = 1 ;
@@ -197,15 +197,15 @@ void main(void)
 											}
 											if((Level2_timeout_high == 0)&&(Level2_timeout_low == 0))
 											{
-												Level2_timeout_high = 6240;//6.5s
-												Level2_timeout_low = 3360;//3.5s
+												Level2_timeout_high = 3840;//4s       6240;//6.5s
+												Level2_timeout_low = 7680;//8s        3360;//3.5s
 											}
 											break;
 							case 3: //on 9s ,off 1s
 											Level1_timeout_high = 3840;//4s
-											Level1_timeout_low = 5660;//6s
-											Level2_timeout_high = 6140;//6.5s
-											Level2_timeout_low = 3360;//3.5s
+											Level1_timeout_low = 9600;//10s       5660;//6s
+											Level2_timeout_high = 3840;//4s       6140;//6.5s
+											Level2_timeout_low = 7680;//8s        3360;//3.5s
 							        if(Level3_count == 0)//20 mins
 											{
 											  P11 = 0;
@@ -213,8 +213,8 @@ void main(void)
 												Delay_ms(1);
 												if(Level3_off_count == 0)//4 mins
 												{
-												  Level3_count = 1152000;
-													Level3_off_count = 230400;
+												  Level3_count = 1728000;//30min     1152000;
+													Level3_off_count = 172800;//3min   230400;
 												}
 												break;
 											}
@@ -233,17 +233,23 @@ void main(void)
 											}
 											if((Level3_timeout_high == 0)&&(Level3_timeout_low == 0))
 											{
-												Level3_timeout_high = 7480;
-											  Level3_timeout_low = 1920;
+												Level3_timeout_high = 3840;//4s       7480;
+											  Level3_timeout_low = 5760;//6s        1920;
 											}
 											break;
 							default :
-								      Level1_timeout_high = 3840;//4s
-											Level1_timeout_low = 5660;//6s
-											Level2_timeout_high = 6140;//6.5s
-											Level2_timeout_low = 3360;//3.5s
-											Level3_timeout_high = 7480;//8s
-											Level3_timeout_low = 1920;//2s
+											Level1_timeout_high = 3840;//4s
+											Level1_timeout_low = 9600;//10s       5660;//6s
+											Level2_timeout_high = 3840;//4s       6140;//6.5s
+											Level2_timeout_low = 7680;//8s        3360;//3.5s
+											Level3_timeout_high = 3840;//4s       7480;//8s
+											Level3_timeout_low = 5760;//6s        1920;//2s
+//								      Level1_timeout_high = 3840;//4s
+//											Level1_timeout_low = 5660;//6s
+//											Level2_timeout_high = 6140;//6.5s
+//											Level2_timeout_low = 3360;//3.5s
+//											Level3_timeout_high = 7480;//8s
+//											Level3_timeout_low = 1920;//2s
 											break;	
 						 }
 					}

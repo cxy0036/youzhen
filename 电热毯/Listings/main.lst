@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 13:06:56 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
@@ -14,8 +14,8 @@ line level    source
    4          
    5          
    6          //extern uint8_t ;
-   7          uint32_t Level3_count = 1152000;
-   8          uint32_t Level3_off_count = 230400;
+   7          uint32_t Level3_count = 1728000;//30min    1152000;
+   8          uint32_t Level3_off_count = 172800;//3min  230400;
    9          uint8_t Level = 0;
   10          uint8_t Power = 0;
   11          uint8_t LEVEL_UP = 0;
@@ -24,11 +24,11 @@ line level    source
   14          uint32_t Six_hour_time = 27500000;//8h delay
   15          uint8_t Five_mins_no = 0; 
   16          uint16_t Level1_timeout_high = 3840;//4s
-  17          uint16_t Level1_timeout_low = 5660;//6s
-  18          uint16_t Level2_timeout_high = 6140;//6.5s
-  19          uint16_t Level2_timeout_low = 3360;//3.5s
-  20          uint16_t Level3_timeout_high = 7480;//8s
-  21          uint16_t Level3_timeout_low = 1920;//2s
+  17          uint16_t Level1_timeout_low = 9600;//10s        5660;//6s
+  18          uint16_t Level2_timeout_high = 3840;//4s       6140;//6.5s
+  19          uint16_t Level2_timeout_low = 7680;//8s        3360;//3.5s
+  20          uint16_t Level3_timeout_high = 3840;//4s       7480;//8s
+  21          uint16_t Level3_timeout_low = 5760;//6s        1920;//2s
   22          
   23          
   24          #define POWER_PIN     P14 //P12 
@@ -62,7 +62,7 @@ line level    source
   52   1        while(1)
   53   1        {
   54   2           //WDTR = 0x5A;//??
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 2   
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 13:06:56 PAGE 2   
 
   55   2          if(Six_hour_time == 0)
   56   2          {
@@ -92,11 +92,11 @@ line level    source
   80   5                  Power =1;//power on 
   81   5                  Five_mins_time =145500;
   82   5                  Level1_timeout_high = 3840;//4s
-  83   5                  Level1_timeout_low = 5660;//6s
-  84   5                  Level2_timeout_high = 6140;//6.5s
-  85   5                  Level2_timeout_low = 3360;//3.5s
-  86   5                  Level3_timeout_high = 7480;//8s
-  87   5                  Level3_timeout_low = 1920;//2s
+  83   5                  Level1_timeout_low = 9600;//10s       5660;//6s
+  84   5                  Level2_timeout_high = 3840;//4s       6140;//6.5s
+  85   5                  Level2_timeout_low = 7680;//8s        3360;//3.5s
+  86   5                  Level3_timeout_high = 3840;//4s       7480;//8s
+  87   5                  Level3_timeout_low = 5760;//6s        1920;//2s
   88   5                  Five_mins_no = 0;
   89   5               }else{
   90   5                 Power =0;//power off
@@ -126,7 +126,7 @@ line level    source
  114   5                 LEVEL_UP = 0;
  115   5                 Level++;
  116   5               }
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 3   
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 13:06:56 PAGE 3   
 
  117   4               if(Level ==4)//加到三挡，返回1
  118   4               {
@@ -170,10 +170,10 @@ line level    source
  156   4                    switch(Level)
  157   4                   {
  158   5                    case 1: //on 4.5s ,off 5.5s
- 159   5                            Level2_timeout_high = 6140;//6.5s
- 160   5                            Level2_timeout_low = 3360;//3.5s
- 161   5                            Level3_timeout_high = 7480;//8s
- 162   5                            Level3_timeout_low = 1920;//2s     
+ 159   5                            Level2_timeout_high = 3840;//4s   6140;//6.5s
+ 160   5                            Level2_timeout_low = 7680;//8s    3360;//3.5s
+ 161   5                            Level3_timeout_high = 3840;//4s   7480;//8s
+ 162   5                            Level3_timeout_low =  5760;//6s   1920;//2s     
  163   5                            if(Level1_timeout_high != 0)//on 4.5s
  164   5                            {
  165   6                              P11 = 1 ;
@@ -189,16 +189,16 @@ line level    source
  175   5                            if((Level1_timeout_high == 0)&&(Level1_timeout_low == 0))//next period
  176   5                            {
  177   6                              Level1_timeout_high = 3840;//4s
- 178   6                              Level1_timeout_low = 5660;//6s
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 4   
+ 178   6                              Level1_timeout_low = 9600;//10s    5660;//6s
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 13:06:56 PAGE 4   
 
  179   6                            }
  180   5                            break;
  181   5                    case 2: //on 7.2s ,off 2.8s
  182   5                            Level1_timeout_high = 3840;//4s
- 183   5                            Level1_timeout_low = 5660;//6s
- 184   5                            Level3_timeout_high = 7480;//8s
- 185   5                            Level3_timeout_low = 1920;//2s
+ 183   5                            Level1_timeout_low = 9600;//10s       5660;//6s
+ 184   5                            Level3_timeout_high = 3840;//4s       7480;//8s
+ 185   5                            Level3_timeout_low = 5760;//6s        1920;//2s
  186   5                            if(Level2_timeout_high != 0)
  187   5                            {
  188   6                              P11 = 1 ;
@@ -213,15 +213,15 @@ line level    source
  197   6                            }
  198   5                            if((Level2_timeout_high == 0)&&(Level2_timeout_low == 0))
  199   5                            {
- 200   6                              Level2_timeout_high = 6240;//6.5s
- 201   6                              Level2_timeout_low = 3360;//3.5s
+ 200   6                              Level2_timeout_high = 3840;//4s       6240;//6.5s
+ 201   6                              Level2_timeout_low = 7680;//8s        3360;//3.5s
  202   6                            }
  203   5                            break;
  204   5                    case 3: //on 9s ,off 1s
  205   5                            Level1_timeout_high = 3840;//4s
- 206   5                            Level1_timeout_low = 5660;//6s
- 207   5                            Level2_timeout_high = 6140;//6.5s
- 208   5                            Level2_timeout_low = 3360;//3.5s
+ 206   5                            Level1_timeout_low = 9600;//10s       5660;//6s
+ 207   5                            Level2_timeout_high = 3840;//4s       6140;//6.5s
+ 208   5                            Level2_timeout_low = 7680;//8s        3360;//3.5s
  209   5                            if(Level3_count == 0)//20 mins
  210   5                            {
  211   6                              P11 = 0;
@@ -229,8 +229,8 @@ line level    source
  213   6                              Delay_ms(1);
  214   6                              if(Level3_off_count == 0)//4 mins
  215   6                              {
- 216   7                                Level3_count = 1152000;
- 217   7                                Level3_off_count = 230400;
+ 216   7                                Level3_count = 1728000;//30min     1152000;
+ 217   7                                Level3_off_count = 172800;//3min   230400;
  218   7                              }
  219   6                              break;
  220   6                            }
@@ -249,30 +249,36 @@ line level    source
  233   6                            }
  234   5                            if((Level3_timeout_high == 0)&&(Level3_timeout_low == 0))
  235   5                            {
- 236   6                              Level3_timeout_high = 7480;
- 237   6                              Level3_timeout_low = 1920;
+ 236   6                              Level3_timeout_high = 3840;//4s       7480;
+ 237   6                              Level3_timeout_low = 5760;//6s        1920;
  238   6                            }
  239   5                            break;
  240   5                    default :
-C51 COMPILER V9.56.0.0   MAIN                                                              04/25/2018 14:58:28 PAGE 5   
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 13:06:56 PAGE 5   
 
  241   5                            Level1_timeout_high = 3840;//4s
- 242   5                            Level1_timeout_low = 5660;//6s
- 243   5                            Level2_timeout_high = 6140;//6.5s
- 244   5                            Level2_timeout_low = 3360;//3.5s
- 245   5                            Level3_timeout_high = 7480;//8s
- 246   5                            Level3_timeout_low = 1920;//2s
- 247   5                            break;  
- 248   5                   }
- 249   4                }
- 250   3         
- 251   3           }
- 252   2         }
- 253   1      }
+ 242   5                            Level1_timeout_low = 9600;//10s       5660;//6s
+ 243   5                            Level2_timeout_high = 3840;//4s       6140;//6.5s
+ 244   5                            Level2_timeout_low = 7680;//8s        3360;//3.5s
+ 245   5                            Level3_timeout_high = 3840;//4s       7480;//8s
+ 246   5                            Level3_timeout_low = 5760;//6s        1920;//2s
+ 247   5      //                      Level1_timeout_high = 3840;//4s
+ 248   5      //                      Level1_timeout_low = 5660;//6s
+ 249   5      //                      Level2_timeout_high = 6140;//6.5s
+ 250   5      //                      Level2_timeout_low = 3360;//3.5s
+ 251   5      //                      Level3_timeout_high = 7480;//8s
+ 252   5      //                      Level3_timeout_low = 1920;//2s
+ 253   5                            break;  
+ 254   5                   }
+ 255   4                }
+ 256   3         
+ 257   3           }
+ 258   2         }
+ 259   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    897    ----
+   CODE SIZE        =    891    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
