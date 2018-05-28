@@ -1,0 +1,19 @@
+"-p" 
+
+"C:\Program Files\IAR Systems\Embedded Workbench 7.3\stm8\config\ddf\iostm8s105c4.ddf" 
+
+"-d" 
+
+"stlink" 
+
+"--mcuname" 
+
+"STM8S105C4" 
+
+"--option_bytes_file" 
+
+"E:\work cxy\project\PL\PL3000_STM8\\opbyte+beep.obc" 
+
+
+
+
