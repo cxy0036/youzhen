@@ -1,0 +1,60 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              05/25/2018 17:53:22 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE User\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\User;.\Option File) DEBUG 
+                    -OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "main.h"
+   2          #include "SN8F5702.H"
+   3          #include "delay.h"
+   4          #include "protocol.h"
+   5          #include "ADC.h"
+   6          #include "EEPROM.h"
+   7          #include "init.h"
+   8          #include "Error_Check.h"
+   9          #include "UART.h"
+  10          #include "Flash_Control.h"
+  11          #include "key.h"
+  12          
+  13          extern uint8_t Receive_Buffer_Full_Flag;
+  14          
+  15          void main(void)
+  16          {
+  17   1        //uint16_t rnum; //flash_count = 32,
+  18   1        //uint8_t data_arry[4];
+  19   1        //uint8_t t=0x80,i;
+  20   1        uint8_t i =9;
+  21   1        WDTR = 0x5A;
+  22   1        Init_Fun();
+  23   1        //Uart_Init();
+  24   1        //EEPROM_IO();
+  25   1        //Delay_Init();
+  26   1        IEN0 |= 0x80;
+  27   1        while(1)
+  28   1        {
+  29   2          
+  30   2          Error_Check();
+  31   2          Key_Process();
+  32   2      #include <SN8F570210.H>
+  33   2          Analysis_Request();   
+  34   2          EEPROM_Write_Check();   
+  35   2        }
+  36   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     26    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
