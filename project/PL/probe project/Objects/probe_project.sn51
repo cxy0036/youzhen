@@ -1,9 +1,0 @@
-[General]
-ChipName=SN8F570210
-HexFile=probe_project.hex
-CodeSecurity_Address=0x4400
-SecurityLevel=Disable 
-UniqueCode=No
-RomSize=0x1000
-CheckSum=0x130F
-FillPattern=0xFF
