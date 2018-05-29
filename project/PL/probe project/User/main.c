@@ -29,7 +29,6 @@ void main(void)
 		
 		Error_Check();
 		Key_Process();
-#include <SN8F570210.H>
 		Analysis_Request();		
     EEPROM_Write_Check();		
 	}
