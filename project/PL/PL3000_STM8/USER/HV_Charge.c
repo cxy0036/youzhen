@@ -146,8 +146,9 @@ void Flash_Control(uint8_t plus_times)
     Flash_Time_Out++;
     IWDG->KR = 0xAA;
     Flash_Start = Receive_Wait_Lost_First(3000);
-    if(Flash_Time_Out == 400)
+    if(Flash_Time_Out >= 400)//==400)
     {
+      Flash_Time_Out = 0;
       SET_IO_HIGH(MULTI_PLUS_CTR_PORT,MULTI_PLUS_CTR_PIN); //flash OFF;
       return;
     }
