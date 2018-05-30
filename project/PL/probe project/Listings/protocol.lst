@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/29/2018 14:32:24 PAGE 1   
+C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/30/2018 09:20:48 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE PROTOCOL
@@ -62,7 +62,7 @@ line level    source
   52          extern uint8_t Receive_Data_Length;
   53          
   54          
-C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/29/2018 14:32:24 PAGE 2   
+C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/30/2018 09:20:48 PAGE 2   
 
   55          uint8_t Crc_Caculate(uint8_t *d,uint8_t length)
   56          {
@@ -126,7 +126,7 @@ line level    source
  114   4              case FUN_No3 : No3_Fun();break;/* get skin color  */
  115   4              //case FUN_No7 : No7_Fun();break;
  116   4              //case FUN_No8 : No8_Fun();break;
-C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/29/2018 14:32:24 PAGE 3   
+C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/30/2018 09:20:48 PAGE 3   
 
  117   4              case FUN_No11: No11_Fun();break;/* Get Lamp Type */
  118   4              //case FUN_No12: No12_Fun();break;
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          /*
  178          void No12_Fun(void)  /* get Mode Type */
-C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/29/2018 14:32:24 PAGE 4   
+C51 COMPILER V9.56.0.0   PROTOCOL                                                          05/30/2018 09:20:48 PAGE 4   
 
  179          /*{
  180            Send_Data(&Mode_Type,1);

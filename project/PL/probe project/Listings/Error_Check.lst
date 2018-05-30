@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   ERROR_CHECK                                                       05/29/2018 14:32:24 PAGE 1   
+C51 COMPILER V9.56.0.0   ERROR_CHECK                                                       05/30/2018 09:20:49 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE ERROR_CHECK
@@ -62,7 +62,7 @@ line level    source
   52   1        readdata = ADC_Read_Channel_Fun(ADC_CARTRIDG_CHANNEL);
   53   1        if(readdata > CARTRIDGE_TYPE_1)
   54   1        {
-C51 COMPILER V9.56.0.0   ERROR_CHECK                                                       05/29/2018 14:32:24 PAGE 2   
+C51 COMPILER V9.56.0.0   ERROR_CHECK                                                       05/30/2018 09:20:49 PAGE 2   
 
   55   2          Lamp_Type = 1;
   56   2        }else{

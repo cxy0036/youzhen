@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   ADC                                                               05/29/2018 14:32:24 PAGE 1   
+C51 COMPILER V9.56.0.0   ADC                                                               05/30/2018 09:20:49 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE ADC
@@ -62,7 +62,7 @@ line level    source
   52          * Arguments  : wangt convert ADC channel
   53          *
   54          * Return  : Return the convert value of 16 Bit for the channel
-C51 COMPILER V9.56.0.0   ADC                                                               05/29/2018 14:32:24 PAGE 2   
+C51 COMPILER V9.56.0.0   ADC                                                               05/30/2018 09:20:49 PAGE 2   
 
   55          *
   56          * Note(s)    : none.
