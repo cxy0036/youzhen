@@ -92,7 +92,7 @@
         <Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows>
         <expressions>
           
-        <item>Bit_Time</item><item>Bit_Time_H</item><item>Bit_Time_L</item><item>HV_Level</item><item>Skin_Color_Type</item><item>Mode_Flag</item><item>Mode_Trans</item><item>Flash_Ready</item><item>Full_Charge_Flag</item><item>KEY_POWER</item><item>Mute_Flag</item><item></item></expressions>
+        <item>Bit_Time</item><item>Bit_Time_H</item><item>Bit_Time_L</item><item>HV_Level</item><item>Skin_Color_Type</item><item>Mode_Flag</item><item>Mode_Trans</item><item>Flash_Ready</item><item>Full_Charge_Flag</item><item>KEY_POWER</item><item>Mute_Flag</item><item/></expressions>
         <col-names>
           
           
